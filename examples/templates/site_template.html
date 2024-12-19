@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Demo for House Searching">
+    <meta name="author" content="Walter Jin">
+    <title>CE Hub AI Demo</title>
+<!--    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />-->
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+
+    {% block imports %} {% endblock %}
+    <!-- jQuery -->
+    <script src="/static/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    {% block js %} {% endblock %}
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "PingFang SC", "Microsoft Yahei", sans-serif;
+        }
+
+        :root {
+            --clr-primary-100: #e6f6ff;
+            --clr-primary-700: #005499;
+            --clr-primary-800: #001833;
+            --clr-primary-900: #00050a;
+        }
+
+
+
+        body {
+            /* width: 100%;
+            place-items: center; */
+            font-family: system-ui;
+            background-image: url(../../static/images/bg.png);
+        }
+
+        .parentDiv {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .childDiv1 {
+            width: 100%;
+            height: 80px;
+        }
+
+        .childDiv2 {
+            width: 100%;
+            flex: 1;
+        }
+
+        .childDiv3 {
+            width: 100%;
+            height: 80px;
+        }
+
+        .headeroracle {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--clr-primary-100);
+            text-align: center;
+            filter: drop-shadow(0 0.5rem 1rem var(--clr-primary-700));
+        }
+    </style>
+    <!-- header style which effect nav area-->
+    <style>
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* 左右padding */
+            padding: 0 5vw;
+            height: 80px;
+            background-color: rgba(189, 46, 53, 0.9);
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        footer p {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="parentDiv">
+        <div class="childDiv1">
+            <nav>
+                <div class="headeroracle">
+                    Oracle AI Demo
+                </div>
+                <div class="nav navbar-top-links navbar-right">
+                    <input id="solution" value="oci" style="display: none;" />
+                    <select class="form-control" id="solution_chose">
+                        <option value="oci">OCI Solution</option>
+                        <option value="open">Open Source Soltion</option>
+                    </select>
+                    <!--button class="btn btn-warning" type="button" id="oci" onclick="change_solution('oci')">OCI Solution</button>
+                    <button class="btn " type="button" id="open" onclick="change_solution('open')">Open Source Soltion</button-->
+                </div>
+            </nav>
+        </div>
+        <div class="childDiv2">
+            {% block body %} {% endblock %}
+        </div>
+        <div class="childDiv3">
+            <footer>
+                <p>© Oracle CE Hub | All Right Reserved</p>
+            </footer>
+        </div>
+    </div>
+
+    {% block footer %} {% endblock %}
+
+</body>
+<script>
+    $(document).ready(function () {
+    });
+    $(function () {
+        $('#solution_chose').on('change', function () {
+            change_solution();
+        });
+    });
+    function change_solution(){
+        var solution = $("#solution_chose").val();
+        $("#solution").val(solution);
+    }
+    function change_solution_bak(type) {
+        current_solution = $('#solution').val();
+        if (type == current_solution) {
+
+        } else {
+            $('#solution').val(type);
+        }
+        if (type == "oci") {
+            $('#open').removeClass("btn-warning");
+            $('#oci').addClass("btn-warning");
+        } else {
+            $('#oci').removeClass("btn-warning");
+            $('#open').addClass("btn-warning");
+        }
+    }
+</script>
+</html>

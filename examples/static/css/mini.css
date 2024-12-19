@@ -1,0 +1,798 @@
+
+
+.sellListContent {
+    line-height: 1;
+    font-size: 0;
+    margin-bottom: 36px
+}
+
+.sellListContent li {
+    position: relative;
+    padding: 35px 0;
+    border-bottom: 0px solid #f1f1f1;
+}
+
+.sellListContent li .img {
+    position: relative;
+    float: left;
+    width: 232px;
+    height: 174px
+}
+
+.sellListContent li img {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+.sellListContent li .itemPushDesc {
+    position: absolute;
+    bottom: 0;
+    background-color: #000;
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 12px;
+    line-height: 30px;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.sellListContent li .info {
+    float: right;
+    width: 640px;
+    vertical-align: top;
+    color: #616669;
+    font-size: 14px;
+    max-width: 640px
+}
+
+.sellListContent li .info .title {
+    font-weight: bold;
+    color: #394043;
+    height: 22px;
+    overflow: hidden;
+    width: 500px
+}
+
+.sellListContent li .info .title:after {
+    content: "";
+    display: block;
+    clear: both
+}
+
+.sellListContent li .info .title a {
+    float: left;
+    max-width: 420px;
+    text-decoration: none;
+    font-size: 22px;
+    color: #394043;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.sellListContent li .info .title a b {
+    font-weight: 700;
+    color: #db4c3f
+}
+
+.sellListContent li .info .title a:visited {
+    color: #9c9fa1
+}
+
+.sellListContent li .info .title a:hover {
+    color: #00ae66
+}
+
+.sellListContent li .info .title .tagIcon {
+    width: auto;
+    height: 21px;
+    margin-left: 5px;
+    float: left
+}
+
+.sellListContent li .info .title .tagBlock {
+    float: left;
+    margin-left: 5px;
+    padding: 0 5px;
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    line-height: 21px;
+    display: inline-block;
+    height: 27px;
+    vertical-align: top
+}
+
+.sellListContent li .info .title .tagBlock.goodhouse_tag {
+    background-color: #D53C3C
+}
+
+.sellListContent li .info .title .tagBlock.new {
+    background-color: #4285f4
+}
+
+.sellListContent li .info .title .tagBlock.yezhushuo {
+    background-color: #00ae66
+}
+
+.sellListContent li .info .title .tagBlock.yishou {
+    background-color: #999999
+}
+
+.sellListContent li .info .title .tagBlock.reduse {
+    background-color: #db4c3f;
+    position: relative
+}
+
+.sellListContent li .info .title .tagBlock.reduse:hover .tooltip {
+    display: block
+}
+
+.sellListContent li .info .title .tagBlock .tooltip {
+    display: none;
+    right: 0;
+    top: 30px;
+    width: 240px;
+    line-height: 18px
+}
+
+.sellListContent li .info .title .tagBlock .tooltip-arrow {
+    right: 15px;
+    left: auto
+}
+
+.sellListContent li .info .address {
+    margin-top: 20px
+}
+
+.sellListContent li .info .address .houseInfo {
+    width: 510px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: top
+}
+
+.sellListContent li .info .address .houseInfo a {
+    color: #394043;
+    margin-left: -6px
+}
+
+.sellListContent li .info .address .houseInfo a b {
+    color: #db4c3f
+}
+
+.sellListContent li .info .address .houseInfo .houseIcon {
+    background-image: url(../component/sprite.png?t=1551236311684);
+    background-position: -441px -220px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: -1px;
+    margin-right: 12px
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution:192dpi) {
+    .sellListContent li .info .address .houseInfo .houseIcon {
+        background-image:url(../component/sprite@2x.png?t=1551236311684);
+        background-size: 606px 356px
+    }
+}
+
+.sellListContent li .info .address .houseInfo a.no_resblock_a {
+    cursor: default
+}
+
+.sellListContent li .info .address .houseInfo a.no_resblock_a:hover {
+    text-decoration: none
+}
+
+.sellListContent li .info .flood {
+    margin-top: 18px
+}
+
+.sellListContent li .info .flood .positionInfo {
+    display: inline-block;
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.sellListContent li .info .flood .positionInfo a {
+    color: #394043
+}
+
+.sellListContent li .info .flood .positionInfo .positionIcon {
+    background-image: url(../component/sprite.png?t=1551236311684);
+    background-position: -398px -238px;
+    width: 13px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: -1px;
+    margin-right: 12px
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution:192dpi) {
+    .sellListContent li .info .flood .positionInfo .positionIcon {
+        background-image:url(../component/sprite@2x.png?t=1551236311684);
+        background-size: 606px 356px
+    }
+}
+
+.sellListContent li .info .followInfo {
+    margin-top: 18px
+}
+
+.sellListContent li .info .followInfo .starIcon {
+    background-image: url(../component/sprite.png?t=1551236311684);
+    background-position: -552px -130px;
+    width: 15px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: -1px;
+    margin-right: 12px
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution:192dpi) {
+    .sellListContent li .info .followInfo .starIcon {
+        background-image:url(../component/sprite@2x.png?t=1551236311684);
+        background-size: 606px 356px
+    }
+}
+
+.sellListContent li .info .agentInfoList {
+    font-family: PingFangSC-Regular;
+    margin-top: 14px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 0;
+    color: #666
+}
+
+.sellListContent li .info .agentInfoList .agentIcon {
+    display: inline-block;
+    margin-right: 10px;
+    background-image: url(../component/sprite.png?t=1551236311684);
+    background-position: -540px -146px;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution:192dpi) {
+    .sellListContent li .info .agentInfoList .agentIcon {
+        background-image:url(../component/sprite@2x.png?t=1551236311684);
+        background-size: 606px 356px
+    }
+}
+
+.sellListContent li .info .agentInfoList .agent_name {
+    margin-right: 22px;
+    display: inline-block;
+    height: 24px;
+    color: #666;
+    vertical-align: middle;
+    font-size: 14px;
+    top: 1px;
+    position: relative
+}
+
+.sellListContent li .info .agentInfoList .agent_chat_btn {
+    cursor: pointer;
+    width: 76px;
+    height: 22px;
+    font-size: 12px;
+    display: inline-block;
+    border: 1px solid #00AE66;
+    color: #00AE66;
+    border-radius: 2px;
+    vertical-align: middle
+}
+
+.sellListContent li .info .agentInfoList .agent_chat_btn .chatIcon {
+    display: inline-block;
+    background-image: url(../component/sprite.png?t=1551236311684);
+    background-position: -474px -185px;
+    width: 18px;
+    height: 18px;
+    transform: scale(.75);
+    margin-left: 3px;
+    position: relative;
+    top: 1px
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution:192dpi) {
+    .sellListContent li .info .agentInfoList .agent_chat_btn .chatIcon {
+        background-image:url(../component/sprite@2x.png?t=1551236311684);
+        background-size: 606px 356px
+    }
+}
+
+.sellListContent li .info .agentInfoList .agent_chat_btn span {
+    display: inline-block;
+    height: 22px;
+    vertical-align: top;
+    line-height: 22px
+}
+
+.sellListContent li .info .tag {
+    margin-top: 18px
+}
+
+.sellListContent li .info .tag span {
+    display: inline-block;
+    color: #849aae;
+    font-size: 12px;
+    line-height: 30px;
+    padding: 0 11px;
+    margin-right: 6px;
+    background-color: #f4f7f9;
+    float: left;
+    text-align: center
+}
+
+.sellListContent li .info .tag span a {
+    color: #849aae;
+    text-decoration: none
+}
+
+.sellListContent li .info .tag span.school {
+    position: relative;
+    cursor: pointer
+}
+
+.sellListContent li .info .tag span.school:hover ul {
+    display: block
+}
+
+.sellListContent li .info .tag span.school ul {
+    display: none;
+    position: absolute;
+    right: -60%;
+    top: 30px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    padding: 8px;
+    z-index: 9
+}
+
+.sellListContent li .info .tag span i {
+    display: inherit;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-left: 8px solid #849aae;
+    border-bottom: 5px solid transparent;
+    margin-left: 5px
+}
+
+.sellListContent li .info .tag .taxfree {
+    background: #ffece8;
+    color: #FF8062
+}
+
+.sellListContent li .info .tag .five {
+    background: #e1f5f8;
+    color: #39BECD
+}
+
+.sellListContent li .info .tag .haskey {
+    background: #e1f5ed;
+    color: #33BE85
+}
+
+.sellListContent li .info .tag .is_restriction {
+    background: #f3f0ff;
+    color: #B199FF
+}
+
+.sellListContent li .info .tag .focus {
+    color: #DCB02E;
+    background: #faf3e0
+}
+
+.sellListContent li .info .tag .vr {
+    background: #E8EEFD;
+    color: #638FF9
+}
+
+.sellListContent li .info .tag .good {
+    width: 70px;
+    padding: 0
+}
+
+.sellListContent li .info .tag .good img {
+    width: 100%
+}
+
+.sellListContent li .info .priceInfo {
+    position: absolute;
+    right: 0;
+    top: 30%
+}
+
+.sellListContent li .info .priceInfo .totalPrice {
+    text-align: right;
+    font-size: 14px;
+    color: #db4c3f
+}
+
+.sellListContent li .info .priceInfo .totalPrice span {
+    font-weight: bold;
+    font-size: 26px;
+    font-family: 'tahoma';
+    margin-right: 3px
+}
+
+.sellListContent li .info .priceInfo .totalPrice .noPrice {
+    font-size: 16px;
+    color: #101d37
+}
+
+.sellListContent li .info .priceInfo .totalPrice2 {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end
+}
+
+.sellListContent li .info .priceInfo .totalPrice2 i {
+    margin-bottom: 2px;
+    margin-right: 3px
+}
+
+.sellListContent li .info .priceInfo .unitPrice {
+    text-align: right;
+    margin-top: 18px;
+    width: 130px;
+    font-size: 12px;
+    color: #394043;
+    position: relative
+}
+
+.sellListContent li .info .priceInfo .unitPrice:hover .tooltip {
+    display: block
+}
+
+.sellListContent li .info .priceInfo .unitPrice .tooltip {
+    display: none;
+    right: 0;
+    top: 20px;
+    width: 190px;
+    line-height: 18px
+}
+
+.sellListContent li .info .priceInfo .unitPrice .tooltip-arrow {
+    right: 60px;
+    left: auto
+}
+
+.sellListContent li:hover .listButtonContainer {
+    display: block
+}
+
+.sellListContent li .followBtn {
+    float: right;
+    line-height: 24.5px;
+    padding: 0 7.5px;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    color: #a9abab;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 12px
+}
+
+.sellListContent li .followBtn:hover {
+    border-color: #ccc;
+    color: #394043
+}
+
+.sellListContent li.list_guide .list_guide_bg {
+    height: 174px;
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: block
+}
+
+.sellListContent li.list_guide .list_guide_bg .list_guide_cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6)
+}
+
+.sellListContent li.list_guide .list_guide_bg .list_guide_title {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 20px;
+    color: #fff
+}
+
+.sellListContent li.list_guide .list_guide_bg .list_guide_title .big {
+    font-size: 31px;
+    line-height: 31px;
+    margin-bottom: 20px;
+    font-weight: bold
+}
+
+.listButtonContainer {
+    *zoom:1;display: none;
+    position: absolute;
+    top: 33px;
+    right: 0
+}
+
+.listButtonContainer:before,.listButtonContainer:after {
+    display: table;
+    content: ""
+}
+
+.listButtonContainer:after {
+    clear: both
+}
+
+.compareBtn {
+    float: right;
+    line-height: 24.5px;
+    padding: 0 7.5px;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    color: #a9abab;
+    font-size: 12px;
+    cursor: pointer
+}
+
+.compareBtn:hover {
+    border-color: #ccc;
+    color: #394043
+}
+
+.compareBtn.disable {
+    cursor: default
+}
+
+.compareBtn.disable:hover {
+    color: #a9abab
+}
+
+.recommendList {
+    margin-top: 50px
+}
+
+.recommendListHeader {
+    font-size: 20px;
+    font-weight: bold;
+    color: #394043
+}
+
+.noResultCommunityHeader {
+    font-size: 20px;
+    font-weight: bold;
+    color: #394043
+}
+
+.noResultCommunityList {
+    padding-top: 30px;
+    padding-bottom: 54px;
+    border-bottom: 1px solid #eeeeee
+}
+
+.content.tagColor .tag .school {
+    position: relative;
+    color: #dc802e !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .school:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #dc802e !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .school * {
+    color: inherit !important
+}
+
+.content.tagColor .tag .taxfree {
+    position: relative;
+    color: #36b0be !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .taxfree:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #36b0be !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .taxfree * {
+    color: inherit !important
+}
+
+.content.tagColor .tag .five {
+    position: relative;
+    color: #f2a12f !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .five:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #f2a12f !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .five * {
+    color: inherit !important
+}
+
+.content.tagColor .tag .subway {
+    position: relative;
+    color: #849aae !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .subway:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #849aae !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .subway * {
+    color: inherit !important
+}
+
+.content.tagColor .tag .haskey {
+    position: relative;
+    color: #33be85 !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .haskey:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #33be85 !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .haskey * {
+    color: inherit !important
+}
+
+.content.tagColor .tag .is_restriction {
+    position: relative;
+    color: #bf55ec !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .is_restriction:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #bf55ec !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .is_restriction * {
+    color: inherit !important
+}
+
+.content.tagColor .tag .focus {
+    position: relative;
+    color: #DCB02E !important;
+    background-color: transparent !important
+}
+
+.content.tagColor .tag .focus:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #DCB02E !important;
+    opacity: .15;
+    filter: alpha(opacity=15)
+}
+
+.content.tagColor .tag .focus * {
+    color: inherit !important
+}
+
+.compareFlyIcon {
+    position: absolute;
+    background-image: url(../component/sprite.png?t=1551236311684);
+    background-position: -451px -146px;
+    width: 23px;
+    height: 23px
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution:192dpi) {
+    .compareFlyIcon {
+        background-image:url(../component/sprite@2x.png?t=1551236311684);
+        background-size: 606px 356px
+    }
+}
+
+.focus_tag {
+    position: absolute;
+    width: 68px;
+    height: 28px;
+    background-image: url(../component/img/focus_tag.png?t=1489639851331);
+    background-size: 100%;
+    top: 6px;
+    left: -4px
+}
+
+.hot_tag {
+    position: absolute;
+    width: 68px;
+    height: 27px;
+    background-image: url(../component/img/hot_tag.png?t=1489639851331);
+    background-size: 100%;
+    top: 6px;
+    left: -3px
+}
+
+.sellListContent li .vr_item {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    left: 8px;
+    bottom: 8px
+}
+
+.sellListContent .video_tag {
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    top: 65px;
+    left: 94px
+}

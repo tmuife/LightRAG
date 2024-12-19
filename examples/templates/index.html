@@ -1,0 +1,418 @@
+{% extends 'site_template.html' %}
+{% block imports %}
+<link rel="stylesheet" type="text/css" href="/static/css/flexslider.css" />
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/static/js/jquery.flexslider-min.js"></script>
+
+<script type="text/javascript">
+	function submit_sample_pic(image_name) {
+		window.location = "/api/ui/detail?file_no=&file_name=" + image_name;
+	}
+	$(function () {
+		$.ajax({
+			url: "/api/object/query_index_image",
+			type: 'POST',
+			cache: false,
+			data: JSON.stringify({
+				"opper": "picQuery",
+				"image_name": ""
+			}),
+			processData: false,
+			contentType: false,
+			dataType: "json",
+			contentType: "application/json",
+			success: function (content, status) {
+				//alert(content);
+				var obj = $.parseJSON(content);
+				result = obj.data;
+				var slider = $('#slider');
+				slider.children().remove();
+
+				var slider_new = $('#slider_new');
+				slider_new.children().remove();
+
+				$.each(result, function (index, object) {
+					var d = $('<div class="slide">');
+					var img = $('<img onclick="submit_sample_pic(\'' + object.name + '\');">')
+					img.attr("src", "/static/upload/" + object.name);
+					d.append(img);
+					slider_new.append(d);
+				});
+			}
+		});
+	});	
+</script>
+<style type="text/css">
+	.main {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		width: 70%;
+		-webkit-transform: translateX(-50%) translateY(-50%);
+		-moz-transform: translateX(-50%) translateY(-50%);
+		-ms-transform: translateX(-50%) translateY(-50%);
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	.dropArea {
+		display: flex;
+		align-content: flex-start;
+		flex-wrap: wrap;
+		position: relative;
+		margin: 0 auto;
+		width: 900px;
+		height: 300px;
+		border: 5px dashed gray;
+		background-color: #e6e6e6;
+		overflow: hidden;
+		cursor: pointer;
+		box-sizing: content-box;
+	}
+
+	.tip {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		font-size: 2em;
+		font-weight: bold;
+		text-align: center;
+		line-height: 300px;
+		color: gray;
+	}
+
+	.compress-list-item {
+		padding: 10px;
+		width: 33.33%;
+		height: 100px;
+	}
+
+	.compress-list-preview {
+		width: 100%;
+		height: 100%;
+		background-size: 100% 100%;
+	}
+
+
+	.search-container {
+		width: 55%;
+		margin: 0 auto;
+		padding: 20px;
+		background-color: #ffffff;
+		border: 1px solid #928ce7;
+		border-radius: 10px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.search {
+		width: 5%;
+		cursor: pointer;
+		padding: 21px 21px;
+		background-size: contain;
+		content: '';
+		background-image: url(/static/images/lens_icon.png);
+	}
+
+	.search-input {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		font-size: 16px;
+	}
+
+	.search-button {
+		background-color: #007bff;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		font-size: 16px;
+		cursor: pointer;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		margin: 4px 2px;
+		width: 100%;
+	}
+
+
+	.slider {
+		width: 60%;
+		height: 300px;
+		margin: auto;
+		display: grid;
+		place-items: center;
+	}
+
+	.slide-track {
+		display: flex;
+		width: calc(300px * 15);
+		animation: scroll 60s linear infinite;
+	}
+
+	.slide-track:hover {
+		animation-play-state: paused;
+	}
+
+	@keyframes scroll {
+		0% {
+			transform: translateX(0);
+		}
+
+		100% {
+			transform: translateX(calc(-300px * 7.5));
+		}
+	}
+
+	.slide {
+		width: 300px;
+		height: 200px;
+		margin: 0 10px;
+		display: flex;
+		align-items: center;
+		padding: 15px;
+		perspective: 100px;
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+		border-radius: 0.5em;
+		object-fit: cover;
+		box-shadow: 0 0.5rem 1rem -0.25rem var(--clr-primary-700);
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+	}
+
+	img:hover {
+		transform: scale(1.1);
+		box-shadow: 0 0.5rem 1rem -0.25rem var(--clr-primary-900);
+		/* transition: transform 0.5s ease-in-out; */
+	}
+
+	.slider {
+		overflow: hidden;
+		-webkit-mask: linear-gradient(90deg,
+				transparent,
+				var(--clr-primary-100) 20%,
+				var(--clr-primary-100) 80%,
+				transparent);
+		mask: linear-gradient(90deg,
+				transparent,
+				var(--clr-primary-100) 20%,
+				var(--clr-primary-100) 80%,
+				transparent);
+	}
+
+	img {
+		--s: 260px;
+		/* the size of the image */
+		--b: 8px;
+		/* the border thickness*/
+		--g: 14px;
+		/* the gap */
+		--c: #4ECDC4;
+		/* the color */
+
+		width: var(--s);
+		aspect-ratio: 1;
+		cursor: pointer;
+		transition: .3s;
+	}
+
+	img:hover {
+		outline: var(--b) solid var(--c);
+		outline-offset: var(--g);
+	}
+</style>
+
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="main clearfix">
+	<div class="slider clearfix" data-speed="fast">
+		<ul class="slide-track clearfix" id="slider_new">
+			<!--div class="slide">
+						<img app="https://media.istockphoto.com/id/637696304/photo/patan.jpg?s=612x612&w=0&k=20&c=-53aSTGBGoOOqX5aoC3Hs1jhZ527v3Id_xOawHHVPpg="
+							alt="patan-durbar-square-unesco-world-heritage-site-in-kathmandu-nepal" />
+					</div-->
+		</ul>
+	</div>
+
+	<br>
+	<div class="demo clearfix">
+		<div class="hidden">
+			<!-- multiple -->
+			<input id="house_file" type="file" accept="image/*" style="display: none;">
+		</div>
+		<div class="search-container">
+			<div class="search-input">&nbsp;
+				<div style="float: right;"><img style="height: 21px;width: 21px; " src="/static/images/lens_icon.svg">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var image_base_str = ""
+	const dropArea = document.querySelector('.search-input');
+	const tip = document.querySelector('.search-input');
+	const file = document.querySelector('input[type="file"]');
+
+	function ignoreDrag(e) {
+		e.preventDefault();	// 取消默认行为
+		// e.stopPropagation();	// 阻止冒泡
+	}
+
+	function fileinfo() {
+		file.onchange = function () {
+			for (var i = 0; i < this.files.length; i++) {
+				// 隐藏提示文字
+				//tip.style.display = 'none';
+
+				// 创建一个容器
+				var wrap = document.createElement('div');
+				wrap.className = 'compress-list-item';
+				dropArea.appendChild(wrap);
+
+				// 创建图片实例对象
+				var img = new Image();
+				// 内存生成 URL 实例
+				img_src = window.URL.createObjectURL(this.files[i]);
+				img.src = img_src;
+
+				// 创建背景缩略图
+				var item = document.createElement('div');
+				item.className = 'compress-list-preview';
+				item.style.backgroundImage = 'url(' + img_src + ')';
+				wrap.appendChild(item);
+
+				// 若背景图加载成功，则释放 URL 实例
+				img.onload = function () {
+					window.URL.revokeObjectURL(this.src);
+				}
+			}
+		}
+	}
+
+	// 事件监听
+	dropArea.addEventListener('dragenter', ignoreDrag, false);
+	dropArea.addEventListener('dragover', ignoreDrag, false);
+	dropArea.addEventListener('drop', function (e) {
+		ignoreDrag(e);
+		var files = e.dataTransfer.files;
+		console.log(files);
+		for (var i = 0; i < files.length; i++) {
+			var type = files[i].type;
+			if (type.substring(0, 6) !== 'image/') continue;
+			// 隐藏提示文字
+			//tip.style.display = 'none';
+			/**
+			 * just jump to another page, the process below will be skiped
+			 * 
+			*/
+			window.location = "/api/ui/detail?file_no=&file_name=" + files[i].name;
+			// 创建一个容器
+			var wrap = document.createElement('div');
+			wrap.className = 'compress-list-item';
+			dropArea.appendChild(wrap);
+
+			// 创建图片实例对象
+			var img = new Image();
+			// 内存生成 URL 实例
+			img_src = window.URL.createObjectURL(files[i]);
+			img.src = img_src;
+			console.log(img_src)
+
+			// 创建背景缩略图
+			var item = document.createElement('div');
+			item.className = 'compress-list-preview';
+			item.style.backgroundImage = 'url(' + img_src + ')';
+			wrap.appendChild(item);
+
+			// 若背景图加载成功，则释放 URL 实例
+			img.onload = function () {
+				window.URL.revokeObjectURL(this.src);
+			}
+		}
+	}, false);
+	dropArea.addEventListener('click', function (e) {
+		// file模拟input点击事件
+		var evt = new MouseEvent('click', {
+			bubbles: false,
+			cancelable: true,
+			view: window
+		});
+		file.dispatchEvent(evt, fileinfo());
+	}, false);
+	function readImage(inputElement) {
+		var deferred = $.Deferred();
+
+		var files = inputElement.get(0).files;
+		if (files && files[0]) {
+			var fr = new FileReader();
+			fr.onload = function (e) {
+				deferred.resolve(e.target.result);
+			};
+			fr.readAsDataURL(files[0]);
+		} else {
+			deferred.resolve(undefined);
+		}
+
+		return deferred.promise();
+	}
+
+	$("#house_file").on('change', function () {
+		readImage($(this)).done(function (base64Data) {
+			//alert(base64Data);
+			console.log($(this));
+			image_base_str = base64Data;
+			submit_image();
+		});
+	});
+	function submit_image() {
+		if ("" == image_base_str) {
+			alert("请先选择图片！");
+		} else {
+			console.log(image_base_str);
+			/**
+			 * traditional method to pass the parameter of image's base64 code will exceed the limit, 
+			 * so change to pass the parameter to backend
+			*/
+			//window.location = "/api/ui/detail?file_name=" + image_base_str;
+			$.ajax({
+				url: "/api/object/pass_image",
+				type: 'POST',
+				cache: false,
+				data: JSON.stringify({
+					"opper": "pass",
+					"file_name": image_base_str
+				}),
+				processData: false,
+				contentType: false,
+				dataType: "json",
+				contentType: "application/json",
+				success: function (content, status) {
+					//alert(status);
+					var obj = $.parseJSON(content);
+					result = obj.data;
+					//alert(result);
+					window.location = "/api/ui/detail?file_name=&file_no=" + result["file_name"];
+					//window.open("/main?file_name=" + result, '_blank');
+				}
+			});
+		}
+	}
+</script>
+{% endblock %}

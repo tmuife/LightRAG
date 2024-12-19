@@ -14,3 +14,7 @@ ignore_this.txt
 .ruff_cache/
 gui/
 *.log
+.DS_Store
+/**/.DS_Store
+/**/.env
+/**/ocidickens/*

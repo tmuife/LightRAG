@@ -1,0 +1,933 @@
+{% extends 'site_template.html' %}
+
+{% block imports %}
+
+<link rel="stylesheet" type="text/css" href="/static/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/animate.css" />
+<link href="/static/css/style.css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+<script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.4.15&key=238ae5517d7e6a2ef1c374a28fcdc645"></script>
+<style type="text/css">
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .search-button {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 15px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        width: 48%;
+    }
+
+    .bn6k9b {
+        height: 100%;
+        left: 10px;
+        top: 0;
+        width: 100%;
+        cursor: default;
+        pointer-events: auto;
+        user-select: auto;
+        border-radius: 20px;
+    }
+
+    .HfwiM {
+        align-items: center;
+        /* background-color: rgb(113 114 118); */
+        box-sizing: border-box;
+        flex-direction: column;
+        padding: 100px 24px 84px;
+        /* position: relative; */
+        transition: padding-top .2s ease;
+        /* user-select: none; */
+
+    }
+
+    .area {
+        width: 100%;
+        border-radius: 18px;
+        border: gray;
+        outline: gray;
+        text-indent: 1em;
+        font-size: 18px;
+    }
+
+    /* over write */
+    .row {
+        display: inline-flex;
+        margin-right: -15px;
+        margin-left: -15px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: 100%;
+    }
+</style>
+
+<style>
+    /* styles for card1 */
+    .card1 {
+        border: 1px solid rgb(92, 92, 92);
+        /*height: 50vh;*/
+        padding: 20px;
+        width: 100%;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        /*background-color: rgba(17, 25, 40, 0.33);*/
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: 0.4s;
+    }
+
+    .card1 img {
+        height: 200px;
+        width: 98%;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+    }
+
+    .card1 h1 {
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    .card1 h2 {
+        font-size: 16px;
+        color: rgb(0, 0, 0);
+        font-weight: 400;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .card1 button {
+        border: 1px solid rgb(117, 117, 117);
+        background: transparent;
+        color: rgb(143, 112, 112);
+        width: 200px;
+        height: 30px;
+        font-size: 15px;
+        font-weight: 400;
+        border-radius: 12px;
+        transition: 0.2s ease;
+    }
+
+    .card1 button:hover {
+        cursor: pointer;
+        border: 0px;
+        background: rgb(124, 75, 75);
+        color: rgb(61, 61, 61);
+    }
+
+    .card1:hover {
+        transform: translateY(-2px) scale(1.03);
+    }
+</style>
+<style>
+    /* styles for checkbox */
+    .m-filter {
+        width: 100%;
+        /* min-width: 1100px; */
+        margin: 0 auto;
+        margin-top: 26px;
+        /*padding: 25px;*/
+        padding-bottom: 14px;
+        padding-top: 14px;
+        /*background-color: #fbfbfb;*/
+        /*box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.2);*/
+        /*font-size: 12px;*/
+        line-height: 1;
+        position: relative;
+    }
+
+    .m-filter dd {
+        float: right;
+        width: 90%;
+    }
+
+    .filter_label {
+
+        font-size: 1.5em;
+        /*margin-block-start: 0.83em;
+    margin-block-end: 0.83em;*/
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+        unicode-bidi: isolate;
+    }
+
+    .form-group {
+        /* margin-bottom: 15px; */
+        width: 100%;
+        display: flex;
+    }
+
+    .form-control,
+    .single-line {
+        display: flex;
+        border-color: #cfdadd;
+        border-radius: 2px;
+        width: 85%;
+        height: 30px;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #cd6262;
+        background-image: none;
+        border: 1px #cd6262;
+        box-shadow: none;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+<style type="text/css">
+    /* CSS styles for tab*/
+    @import url(http://fonts.googleapis.com/css?family=Maven+Pro);
+
+    .tab-wrap {
+        -webkit-transition: 0.3s box-shadow ease;
+        transition: 0.3s box-shadow ease;
+        border-radius: 6px;
+        max-width: 100%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        position: relative;
+        list-style: none;
+        background-color: #fff;
+        margin: 40px 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .tab-wrap:hover {
+        box-shadow: 0 12px 23px rgba(0, 0, 0, 0.23), 0 10px 10px rgba(0, 0, 0, 0.19);
+    }
+
+    .tab {
+        display: none;
+    }
+
+    .tab:checked:nth-of-type(1)~.tab__content:nth-of-type(1) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(2)~.tab__content:nth-of-type(2) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(3)~.tab__content:nth-of-type(3) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(4)~.tab__content:nth-of-type(4) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(5)~.tab__content:nth-of-type(5) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:first-of-type:not(:last-of-type)+label {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .tab:not(:first-of-type):not(:last-of-type)+label {
+        border-radius: 0;
+    }
+
+    .tab:last-of-type:not(:first-of-type)+label {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .tab:checked+label {
+        background-color: #fff;
+        box-shadow: 0 -1px 0 #fff inset;
+        cursor: default;
+    }
+
+    .tab:checked+label:hover {
+        box-shadow: 0 -1px 0 #fff inset;
+        background-color: #fff;
+    }
+
+    .tab+label {
+        box-shadow: 0 -1px 0 #eee inset;
+        border-radius: 6px 6px 0 0;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: #333;
+        -webkit-box-flex: 3;
+        -webkit-flex-grow: 3;
+        -ms-flex-positive: 3;
+        flex-grow: 3;
+        text-align: center;
+        background-color: #f2f2f2;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        -webkit-transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    .tab+label:hover {
+        background-color: #f9f9f9;
+        box-shadow: 0 1px 0 #f4f4f4 inset;
+    }
+
+    .tab__content {
+        padding: 10px 25px;
+        background-color: transparent;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        opacity: 0;
+        left: 0;
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+        border-radius: 6px;
+    }
+
+
+
+    .container {
+        margin: 0 auto;
+        display: block;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .container>*:not(.tab-wrap) {
+        padding: 0 10px;
+    }
+
+
+    .container p {
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-size: 14px;
+        /* white-space: pre-line; */
+    }
+
+    code {
+        /* background-color: #F9F2F4; */
+        border-radius: 4px;
+        color: #ca4440;
+        font-size: 90%;
+        padding: 2px 4px;
+        /* white-space: nowrap; */
+        white-space: pre-line;
+    }
+</style>
+<script type="text/javascript">
+    var house_id_list = ""
+    function writepicwithrectangle(basestr) {
+        var div = $('#image_left');
+        div.children().remove();
+        div.append($('<img style="width:100%;border-radius: 20px;" src="data:image/png;base64, ' + basestr + '" alt="pic" />'));
+    }
+
+    function writetabs(result, type) {
+        var tableHead = $('#jsonTable thead');
+        tableHead.children().remove();
+        var row = $('<tr>');
+        row.append($('<th>').text("Object"));
+        row.append($('<th >').text("Confidence"));
+        row.append($('<th >').text("Name"));
+        row.append($('<th style="display: none;">').text("Embedding"));
+        row.append($('<th >').text("Action"));
+        //if ("UploadRegister" == type) {
+        //    row.append($('<th >').text("Action"));
+        //} else {
+        //    row.append($('<th >').text("Matched"));
+        //    row.append($('<th >').text("Distance"));
+        //}
+
+        tableHead.append(row);
+
+        var tableBody = $('#jsonTable tbody');
+        tableBody.children().remove();
+
+        $.each(result, function (index, object) {
+            console.log("write tabs object and face");
+            console.log(object);
+
+            $.each(object, function (key, value) {
+                if ((value.type == "obj") || (value.type == "face")) {
+                    var row = $('<tr>');
+                    row.append($('<td><img src="data:image/png;base64, ' + value.baseimg + '" alt="此处应有图片" /></td>'));
+                    row.append($('<td>').text(value.confidence));
+                    if (("UploadRegister" == type) && (value.type == "face")) {
+                        row.append($('<td><input id="name-' + key.replace('"', "") + '" value="' + value.name + '"/></td>'));
+                    } else {
+                        row.append($('<td>').text(value.name));
+                    }
+                    row.append($('<td id="embedding-' + key.replace('"', "") + '" style="display: none;">').text(value.embedding));
+                    if (("UploadRegister" == type) && (value.type == "face")) {
+                        row.append($('<td><button type="button" class="btn btn-primary" onclick="deal_person(\'save\',\'' + value.name + '\',\'' + value.embedding + '\');">Save</button></td>'));
+                    } else {
+                        row.append($('<td><button type="button" class="btn btn-primary" onclick="deal_person(\'query\',\'' + value.name + '\',\'' + value.embedding + '\');">query_this_guy</button></td>'));
+                        //row.append($('<td><img src="' + '/static/upload/' + value.matched + '" alt="Red dot" style="height: 64px;"/></td>'));
+                        //row.append($('<td>').text(value.matched_score));
+                    }
+                    tableBody.append(row);
+                }
+            });
+        });
+    }
+    function query_this_guy(v) {
+        console.log($.parseJSON(v));
+        console.log(v.name, v.embedding)
+    }
+    function deal_person(opper, name, embedding) {
+        //console.log(opper, name, embedding);
+        $.ajax({
+            url: "/api/face/deal_persons",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({
+                "opper": opper,
+                "name": [name],
+                "embedding": [embedding]
+            }),
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (content, status) {
+                var result = $.parseJSON(content);
+                if (opper == "save") {
+
+                } else {
+                    if ("success" == result.status) {
+                        var tableHead = $('#visitTable thead');
+                        tableHead.children().remove();
+                        var row = $('<tr>');
+                        row.append($('<th style="display: none;">').text("匹配结果"));
+                        row.append($('<th style="display: none;">').text("拍摄地点_ID"));
+                        row.append($('<th>').text("拍摄经度"));
+                        row.append($('<th>').text("拍摄纬度"));
+                        row.append($('<th>').text("摄像头地点名称"));
+                        row.append($('<th>').text("最后拍摄时间"));
+                        row.append($('<th>').text("出现次数"));
+                        tableHead.append(row);
+
+                        var tableBody = $('#visitTable tbody');
+                        tableBody.children().remove();
+                        $.each(result.data, function (index, object) {
+                            var row = $('<tr>');
+                            $.each(object, function (key, value) {
+                                if (("identify_name" == key) || ("id" == key) ) {
+                                    row.append($('<td style="display:none;">').text(value));
+                                    if("identify_name" == key){
+                                        $("#span_query").text(value);
+                                    }
+                                    //$("#span_query").text(value);
+                                    //$("#span_query").text("某人");
+                                } else if ("dis" == key){
+                                    console.log("dis",value);
+                                } 
+                                else {
+                                    row.append($('<td>').text(value));
+                                }
+
+                            });
+                            tableBody.append(row);
+                        });
+                        drawMap(result.data);
+                    } else {
+                        alert(result.error);
+                    }
+                }
+
+            }
+        });
+    }
+    function init_page() {
+        $("#big_p").attr("src", "/static/upload/" + file_name);
+        $.ajax({
+            url: "/action",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({
+                "opper": "baseQuery",
+                "image_name": file_name
+            }),
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (content, status) {
+                //alert(content);
+                house_id_list = "";
+                var obj = $.parseJSON(content);
+                result = obj.data;
+
+                writetabs(result, 'init');
+                writesql((obj.sql));
+            }
+        });
+    }
+
+</script>
+{% endblock %}
+
+{% block body %}
+
+
+<div id="container_middle" class="HfwiM">
+
+    <div id="content10" style="width:50%;float:left; padding: 25px;">
+        <div class="container">
+            <div class="tab-wrap">
+                <!-- active tab on page load gets checked attribute -->
+                <input type="radio" id="tab1" name="tabGroup1" class="tab">
+                <label for="tab1" class="filter_label">Camera</label>
+
+                <input type="radio" id="tab2" name="tabGroup1" class="tab" checked>
+                <label for="tab2" class="filter_label">Image</label>
+
+
+                <div class="tab__content">
+                    <video id="preview" class="bn6k9b"
+                        style="height:368px;width:100%;background-color: rgba(172, 172, 167, 0.5);" autoplay></video>
+                    <div class="buttons">
+                        <button class="search-button" id="RegisterFace">拍照注册</button>
+                        <button class="search-button" id="QueryFace">拍照查询</button>
+                        <button class="search-button" id="stop">停止拍照</button>
+                    </div>
+                </div>
+
+                <div class="tab__content" id="showsql">
+                    <div id="image_left"
+                        style="min-height:368px;width:100%;background-color: rgba(172, 172, 167, 0.5);"></div>
+                    <div class="buttons">
+                        <button class="search-button" id="UploadRegister" onclick="UploadRegister()">图片注册</button>
+                        <button class="search-button" id="UploadQuery" onclick="UploadQuery()">图片查询</button>
+                    </div>
+                </div>
+            </div>
+            <div id="ShowCode" style="display: blcok; width: 100%;float:left;">
+                <p style="font-size: 20px;">查询<span id="span_query" style="color: #ff0000;">某人</span>在<span
+                        style="color: #ff0000;"><b>近15天</b></span>出现在"甲骨文大厦"<span
+                        style="color: #ff0000;"><b>附近3公里内</b></span>出现次数<span
+                        style="color: #ff0000;"><b>超过3次</b></span>的<span style="color: #ff0000;"><b>前 8
+                        </b></span>个场所<span onclick="ShowCode('code')"><a></a></span></p>
+                <p align="left" style=" align-self: start;">
+                    select a.identify_name,c.id,c.lng,c.lat,c.name,to_char(max(a.visit_datetime),'YYYY-MM-DD') as
+                    visit_datetime<br>
+                    ,count(1) as visit_times<br>
+                    from <span style="color: #62c43b;"><b>visit_samples a</b></span><br>
+                    inner join <span style="color: #3b92c4;"><b>position_samples b</b></span> on b.id='B000A9I424'<br>
+                    inner join <span style="color: #3b92c4;"><b>position_samples c</b></span> on a.position_id =
+                    c.id<br>
+                    inner join (SELECT collection_name from <span style="color: #d6612a;"><b>face_embedding</b></span>
+                    WHERE <span style="color: #ff0000;"><b>VECTOR_DISTANCE(embedding, vector(:1), EUCLIDEAN) < 0.4</b>
+                    </span> ORDER BY VECTOR_DISTANCE(embedding, vector(:2), EUCLIDEAN) <br>
+                    FETCH FIRST 1 ROWS ONLY) d on d.collection_name=a.identify_name<br>
+                    where <span style="color: #ff0000;"><b>ROUND(SDO_GEOM.SDO_DISTANCE(b.location, c.location, 0.05,
+                            'unit=km'), 2) < 3</b></span> <br>
+                    and a.visit_datetime>=:3<br>
+                    <span style="color: #ff0000;"><b>group by</b></span> a.identify_name,c.id,c.lng,c.lat,c.name <span
+                        style="color: #ff0000;"><b>having count(1) >3 </b></span><br>
+                    order by count(1) desc <br>
+                    fetch first 8 rows only<br>
+
+                </p>
+            </div>
+        </div>
+
+        <!--img class="bn6k9b" id="big_p" app=""><br><br-->
+
+        <textarea class="area" rows="6" id="content" style="display: none;"></textarea>
+        <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+
+        <input type="file" style="display: none;" id="file" name="file" multiple />
+    </div>
+    <div id="content11" style="width:50%;float:left; padding: 50px;">
+        <div style="min-height: 60px;">
+            <table class="table" id="jsonTable" style="width:100%;display:table;font-size: 14px;">
+                <thead style="width:100%;">
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="min-height: 500px;">
+            <table class="table" id="visitTable" style="width:100%;display:table;font-size: 14px;">
+                <thead style="width:100%;">
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="yooo" style="display: none;min-height:300px;width:100%;float:left;">
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    function checkCameraUsage() {
+        return true;
+    }
+
+    var upoppertype = ""
+    var lastClickTime = 0;
+    var delay = 1000;
+    if (checkCameraUsage()) {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({
+                video: true
+            })
+                .then(function (stream) {
+                    var videoElement = document.getElementById("preview");
+                    var canvasElement = document.getElementById("canvas");
+                    var context = canvasElement.getContext("2d");
+                    var RegisterFace = document.getElementById("RegisterFace");
+                    var QueryFace = document.getElementById("QueryFace");
+                    videoElement.srcObject = stream;
+                    RegisterFace.addEventListener("click", function () {
+                        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                        dataURL = canvasElement.toDataURL("image/png");
+                        var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+                        communicate_with_backend("UploadRegister", base64);
+                    });
+                    QueryFace.addEventListener("click", function () {
+                        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                        dataURL = canvasElement.toDataURL("image/png");
+                        var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+                        communicate_with_backend("UploadQuery", base64);
+                    });
+                    var stop = document.getElementById("stop");
+                    stop.addEventListener("click", function () {
+                        stopBothVideoAndAudio(stream);
+                    });
+                })
+                .catch(function (error) {
+                    console.error("获取摄像头输入流失败:", error);
+                });
+        } else {
+            console.error("浏览器不支持摄像头调用");
+        }
+    }
+
+
+    // stop both mic and camera
+    function stopBothVideoAndAudio(stream) {
+        stream.getTracks().forEach((track) => {
+            if (track.readyState == 'live') {
+                track.stop();
+            }
+        });
+    }
+
+    function startBothVideoAndAudio(stream) {
+        //stream.
+    }
+    // stop only camera
+    function stopVideoOnly(stream) {
+        stream.getTracks().forEach((track) => {
+            if (track.readyState == 'live' && track.kind === 'video') {
+                track.stop();
+            }
+        });
+    }
+
+    // stop only mic
+    function stopAudioOnly(stream) {
+        stream.getTracks().forEach((track) => {
+            if (track.readyState == 'live' && track.kind === 'audio') {
+                track.stop();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('.contact-box').each(function () {
+            animationHover(this, 'pulse');
+        });
+        //drawMap("");
+    });
+    function animationHover(element, animation) {
+        element = $(element);
+        element.hover(
+            function () {
+                element.addClass('animated ' + animation);
+            },
+            function () {
+                //动画完成之前移除class
+                window.setTimeout(function () {
+                    element.removeClass('animated ' + animation);
+                }, 2000);
+            });
+    }
+    function getCheckedValue(name) {
+        var temp = new Array();
+        $('input:checkbox[name="' + name + '"]:checked').each(function (k) {
+            temp.push($(this).val());
+        });
+        return temp;
+    }
+
+    function UploadQuery() {
+        var facename = "";
+        upoppertype = "query";
+        writepicwithrectangle("");
+        if ($("#file").prop('files').length == 0) {
+            var file = $("#file");
+            file.click();
+        } else {
+            var reader = new FileReader();
+            var file_data = $('#file').prop('files')[0];
+            reader.onload = function (e) {
+                var dataURL = e.target.result
+                console.log(dataURL);        // 解析后的数据，如下图
+                var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+                writepicwithrectangle(base64);
+                communicate_with_backend("UploadQuery", base64);
+            }
+            reader.readAsDataURL(file_data);    // 解析成base64格式
+        }
+    }
+
+    function UploadRegister() {
+        var facename = "";
+        upoppertype = "record";
+        writepicwithrectangle("");
+        if ($("#file").prop('files').length == 0) {
+            var file = $("#file");
+            file.click();
+        } else {
+            var reader = new FileReader();
+            var file_data = $('#file').prop('files')[0];
+            reader.onload = function (e) {
+                var dataURL = e.target.result
+                console.log(dataURL);        // 解析后的数据，如下图
+                var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+                writepicwithrectangle(base64);
+                communicate_with_backend("UploadRegister", base64);
+            }
+            reader.readAsDataURL(file_data);    // 解析成base64格式
+        }
+    }
+    $('#file').change(function () {
+        var file = $(this).prop('files')[0];
+        console.log('文件名：' + file.name);
+        console.log('文件大小：' + file.size);
+        console.log('文件类型：' + file.type);
+        if ("query" == upoppertype) {
+            UploadQuery();
+        } else {
+            UploadRegister();
+        }
+    });
+    function communicate_with_backend(opper, image) {
+        console.log("runs into communicate_with_backend");
+        //detect_types = getCheckedValue('detect_type');
+        $.ajax({
+            url: "/api/face/detect",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({
+                "opper": opper,
+                //"facename": facename,
+                "detect_types": ["face_detect"],
+                "solution": $('#solution').val(),
+                "image": image
+            }),
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (content, status) {
+                $('#loading-div-background').slideUp(200);
+                var result = $.parseJSON(content);
+                if ("success" == result.status) {
+                    writepicwithrectangle(result.data.image);
+                    writetabs(result.data.detail, opper);
+                } else {
+                    alert(result.error);
+                }
+                $("#file").val('');
+                $("#file").css("display", "none");
+            }
+        });
+    }
+    function drawMap(result) {
+        $("#yooo").css("display", "block");
+        //$("#content21").css("display", "block");
+
+        //alert("Start Mapping");
+        var map = new AMap.Map("yooo", {
+            zoom: 13,
+            center: [116.283458, 40.060895],
+            resizeEnable: true,
+            mapStyle: 'amap://styles/whitesmoke'
+        });
+        //alert(map);
+        var positions = []
+        var anchor = []
+        if ("" != result) {
+            positions = new Array();
+            anchor = new Array();
+            var loopindex = 0;
+            $.each(result, function (index, object) {
+                positions[loopindex] = new Array()
+                $.each(object, function (key, value) {
+                    if ("lng" == key) {
+                        positions[loopindex][0] = value;
+                    }
+                    if ("lat" == key) {
+                        positions[loopindex][1] = value;
+                    }
+                    if ("name" == key) {
+                        anchor[loopindex] = value;
+                    }
+                });
+                loopindex++;
+            });
+        } else {
+            var positions = [
+                [116.2894232, 40.0477313],
+                [116.287471, 40.049437],
+                [116.291711, 40.046150],
+                [116.289761, 40.045996],
+                [116.288394, 40.046789],
+                [116.289200, 40.050515]
+            ];
+            var anchor = [
+                'Oracle',
+                '启明星辰大厦',
+                '环宇大厦',
+                '北京立思辰大厦',
+                '北京高校大学生创业园',
+                '中欧国际工商学院'
+            ]
+        }
+        var pos_icon = [];
+        var pos_marker = [];
+        var icon = [];
+        var marker = [];
+        for (var i = 0; i < positions.length; i++) {
+            // 创建一个 Icon
+            pos_icon[i] = new AMap.Icon({
+                // 图标尺寸
+                size: new AMap.Size(12, 12),
+                // 图标的取图地址
+                image: '//a.amap.com/jsapi_demos/static/demo-center/marker/marker.png',
+                // 图标所用图片大小
+                imageSize: new AMap.Size(12, 12),
+            });
+            var labelContent = "<div class='labelContent'>" + anchor[i] + "</div>"
+
+            // 将 Icon 传入 marker
+            pos_marker[i] = new AMap.Marker({
+                position: positions[i],
+                icon: pos_icon[i],
+                anchor: 'center', //设置锚点
+                offset: new AMap.Pixel(0, 0) //设置偏移量
+            });
+            map.add(pos_marker[i]);
+
+            // 创建一个 Icon
+            var imageUrl = '//a.amap.com/jsapi_demos/static/demo-center/marker/icon.png'
+            icon[i] = new AMap.Icon({
+                // 图标尺寸
+                size: new AMap.Size(12, 12),
+                // 图标的取图地址
+                image: imageUrl,
+                // 图标所用图片大小
+                imageSize: new AMap.Size(1, 1),
+            });
+            // 将 Icon 传入 marker
+            var labelOffset = new AMap.Pixel(-23, -28);
+            marker[i] = new AMap.Marker({
+                position: positions[i],
+                icon: icon[i],
+                anchor: anchor[i], //设置锚点
+                offset: new AMap.Pixel(0, 0), //设置偏移量
+                label: {
+                    content: labelContent,
+                    offset: labelOffset
+                }
+            });
+            map.add(marker[i]);
+        }
+
+    }
+</script>
+{% endblock %}

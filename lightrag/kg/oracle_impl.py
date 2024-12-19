@@ -38,6 +38,8 @@ class OracleDB:
             oracledb.defaults.fetch_lobs = False
 
             self.pool = oracledb.create_pool_async(
+                host=self.host,
+                port=self.port,
                 user=self.user,
                 password=self.password,
                 dsn=self.dsn,
@@ -162,12 +164,26 @@ class OracleDB:
             print(sql)
             print(data)
             raise
-
+from decouple import config as _config
+class BaseOracle():
+    def __initdb__(self):
+        self.db = OracleDB(
+        config={
+            "host": _config("HOST"),
+            "port": int(_config("PORT")),
+            "user": _config("PASSWORD"),
+            "password": _config("PASSWORD"),
+            "dsn": _config("DSN"),
+            "workspace": _config("WORKSPACE"),
+        }  # specify which docs you want to store and query
+    )
 
 @dataclass
-class OracleKVStorage(BaseKVStorage):
+class OracleKVStorage(BaseKVStorage, BaseOracle):
+
     # should pass db object to self.db
     def __post_init__(self):
+        super().__initdb__()
         self._data = {}
         self._max_batch_size = self.global_config["embedding_batch_num"]
 
@@ -286,11 +302,12 @@ class OracleKVStorage(BaseKVStorage):
 
 
 @dataclass
-class OracleVectorDBStorage(BaseVectorStorage):
+class OracleVectorDBStorage(BaseVectorStorage,BaseOracle):
+
     cosine_better_than_threshold: float = 0.2
 
     def __post_init__(self):
-        pass
+        super().__initdb__()
 
     async def upsert(self, data: dict[str, dict]):
         """向向量数据库中插入数据"""
@@ -323,12 +340,16 @@ class OracleVectorDBStorage(BaseVectorStorage):
 
 
 @dataclass
-class OracleGraphStorage(BaseGraphStorage):
+class OracleGraphStorage(BaseGraphStorage,BaseOracle):
+
+
     """基于Oracle的图存储模块"""
 
     def __post_init__(self):
+        super().__initdb__()
         """从graphml文件加载图"""
         self._max_batch_size = self.global_config["embedding_batch_num"]
+
 
     #################### insert method ################
 

@@ -1,0 +1,807 @@
+{% extends 'site_template.html' %}
+
+{% block imports %}
+
+<link rel="stylesheet" type="text/css" href="/static/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/animate.css" />
+<link href="/static/css/style.css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+<style type="text/css">
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .search-button {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        width: 48%;
+    }
+
+    .bn6k9b {
+        height: 100%;
+        left: 10px;
+        top: 0;
+        width: 100%;
+        cursor: default;
+        pointer-events: auto;
+        user-select: auto;
+        border-radius: 20px;
+    }
+
+    .HfwiM {
+        align-items: center;
+        /* background-color: rgb(113 114 118); */
+        box-sizing: border-box;
+        flex-direction: column;
+        padding: 100px 24px 84px;
+        position: relative;
+        transition: padding-top .2s ease;
+        /* user-select: none; */
+
+    }
+
+    .area {
+        width: 100%;
+        border-radius: 18px;
+        border: gray;
+        outline: gray;
+        text-indent: 1em;
+        font-size: 18px;
+    }
+
+    /* over write */
+    .row {
+        display: inline-flex;
+        margin-right: -15px;
+        margin-left: -15px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: 100%;
+    }
+</style>
+
+<style>
+    /* styles for card1 */
+    .card1 {
+        border: 1px solid rgb(92, 92, 92);
+        /*height: 50vh;*/
+        padding: 20px;
+        width: 100%;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        /*background-color: rgba(17, 25, 40, 0.33);*/
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: 0.4s;
+    }
+
+    .card1 img {
+        height: 200px;
+        width: 98%;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+    }
+
+    .card1 h1 {
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    .card1 h2 {
+        font-size: 16px;
+        color: rgb(0, 0, 0);
+        font-weight: 400;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .card1 button {
+        border: 1px solid rgb(117, 117, 117);
+        background: transparent;
+        color: rgb(143, 112, 112);
+        width: 200px;
+        height: 30px;
+        font-size: 15px;
+        font-weight: 400;
+        border-radius: 12px;
+        transition: 0.2s ease;
+    }
+
+    .card1 button:hover {
+        cursor: pointer;
+        border: 0px;
+        background: rgb(124, 75, 75);
+        color: rgb(61, 61, 61);
+    }
+
+    .card1:hover {
+        transform: translateY(-2px) scale(1.03);
+    }
+</style>
+<style>
+    /* styles for checkbox */
+    .m-filter {
+        width: 100%;
+        /* min-width: 1100px; */
+        margin: 0 auto;
+        margin-top: 26px;
+        /*padding: 25px;*/
+        padding-bottom: 14px;
+        padding-top: 14px;
+        /*background-color: #fbfbfb;*/
+        /*box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.2);*/
+        /*font-size: 12px;*/
+        line-height: 1;
+        position: relative;
+    }
+
+    .m-filter dd {
+        float: right;
+        width: 90%;
+    }
+
+    .filter_label {
+
+        font-size: 1.5em;
+        /*margin-block-start: 0.83em;
+    margin-block-end: 0.83em;*/
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+        unicode-bidi: isolate;
+    }
+
+    .form-group {
+        /* margin-bottom: 15px; */
+        width: 100%;
+        display: flex;
+    }
+
+    .form-control,
+    .single-line {
+        display: flex;
+        border-color: #cfdadd;
+        border-radius: 2px;
+        width: 85%;
+        height: 30px;
+        padding: 6px 12px;
+        font-size: 12px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #cfdadd;
+        box-shadow: none;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+<style type="text/css">
+    /* CSS styles for tab*/
+    @import url(http://fonts.googleapis.com/css?family=Maven+Pro);
+
+    .tab-wrap {
+        -webkit-transition: 0.3s box-shadow ease;
+        transition: 0.3s box-shadow ease;
+        border-radius: 6px;
+        max-width: 100%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        position: relative;
+        list-style: none;
+        background-color: #fff;
+        margin: 40px 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .tab-wrap:hover {
+        box-shadow: 0 12px 23px rgba(0, 0, 0, 0.23), 0 10px 10px rgba(0, 0, 0, 0.19);
+    }
+
+    .tab {
+        display: none;
+    }
+
+    .tab:checked:nth-of-type(1)~.tab__content:nth-of-type(1) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(2)~.tab__content:nth-of-type(2) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(3)~.tab__content:nth-of-type(3) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(4)~.tab__content:nth-of-type(4) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(5)~.tab__content:nth-of-type(5) {
+        opacity: 1;
+        -webkit-transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:first-of-type:not(:last-of-type)+label {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .tab:not(:first-of-type):not(:last-of-type)+label {
+        border-radius: 0;
+    }
+
+    .tab:last-of-type:not(:first-of-type)+label {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .tab:checked+label {
+        background-color: #fff;
+        box-shadow: 0 -1px 0 #fff inset;
+        cursor: default;
+    }
+
+    .tab:checked+label:hover {
+        box-shadow: 0 -1px 0 #fff inset;
+        background-color: #fff;
+    }
+
+    .tab+label {
+        box-shadow: 0 -1px 0 #eee inset;
+        border-radius: 6px 6px 0 0;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: #333;
+        -webkit-box-flex: 3;
+        -webkit-flex-grow: 3;
+        -ms-flex-positive: 3;
+        flex-grow: 3;
+        text-align: center;
+        background-color: #f2f2f2;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        -webkit-transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    .tab+label:hover {
+        background-color: #f9f9f9;
+        box-shadow: 0 1px 0 #f4f4f4 inset;
+    }
+
+    .tab__content {
+        padding: 10px 25px;
+        background-color: transparent;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        opacity: 0;
+        left: 0;
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+        border-radius: 6px;
+    }
+
+
+
+    .container {
+        margin: 0 auto;
+        display: block;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .container>*:not(.tab-wrap) {
+        padding: 0 80px;
+    }
+
+
+    .container p {
+        line-height: 1.6;
+        margin-bottom: 20px;
+        white-space: pre-line;
+    }
+
+    code {
+        /* background-color: #F9F2F4; */
+        border-radius: 4px;
+        color: #ca4440;
+        font-size: 90%;
+        padding: 2px 4px;
+        /* white-space: nowrap; */
+        white-space: pre-line;
+    }
+</style>
+<script type="text/javascript">
+    var house_id_list = ""
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
+    /**
+     * traditional method to pass the parameter of image's base64 code will exceed the limit, 
+     * so change to get the parameter from backend
+    */
+    var file_name = getUrlParameter('file_name');
+    if(!file_name){
+        console.log("can't find file_name");
+        file_name = "{{ file_name }}"
+        console.log("file_name is "+file_name);
+    }
+    console.log("file_name"+file_name);
+    //alert(file_name);
+    $(document).ready(function () {
+        init_page();
+    });
+    function writesql(sql) {
+        var div = $('#showsql');
+        div.children().remove();
+        div.append($('<p>' + sql + '</p>'));
+    }
+    function writetabs(result, type) {
+        var div = $('#list_append');
+        div.children().remove();
+        $.each(result, function (index, object) {
+            console.log(object);
+            if ("init" == type) {
+                house_id_list = (house_id_list.length > 0 ? house_id_list + "," : "") + object["name"]
+            }
+            var sm4 = $('<div class="col-sm-4">')
+            var contact = $('<div class="contact-box" style="padding: 5px;">');
+            card = $('<div class="card1">');
+            card.append($(' <img alt="image" onclick="showDetail(\'' + object.name + '\')"  src="' + '/static/upload/' + object.name + '">'));
+            card.append($('<h2 class="fa fa-truck">&nbsp;&nbsp;' + object["position"] + '-'+object["find_type"]+'</h2>'));
+            card.append($('<h2>' + object["description"] + '</h2>'));
+            card.append($('<button onclick="showDetail(\'' + object.name + '\')">查看详细</button>'));
+            contact.append($('<div class="col-sm-4-0">').append(card));
+            sm4.append(contact);
+            div.append(sm4);
+
+        });
+        if (result.length <= 1) {
+            div.append($('<div class="col-sm-4">'));
+        }
+        $('.contact-box').each(function () {
+            animationHover(this, 'pulse');
+        });
+    }
+    function init_page() {
+        var post_data;
+        if (file_name.indexOf("base64") > -1) {
+            console.log(file_name);
+            base64String = file_name.replace(/^data:image\/(png|jpeg);base64,/, "")
+            while (base64String.length % 4) {
+                base64String += '=';
+            }
+            $("#big_p").attr("src", file_name);
+            //$("#big_p").attr("src", "data:image/png;base64," + file_name.replace(/^data:image\/(png|jpeg);base64,/, "") );
+            post_data = JSON.stringify({
+                "opper": "UploadQuery",
+                "solution": "oci",
+                "image": base64String
+            });
+            console.log(file_name.replace(/^data:image\/(png|jpeg);base64,/, ""));
+        } else {
+            $("#big_p").attr("src", "/static/upload/" + file_name);
+            post_data = JSON.stringify({
+                "opper": "UploadQuery",
+                "solution": $('#solution').val(),
+                "detect_types": ["object_detect", "face_detect", "ocr_detect"],
+                "image_name": file_name
+            });
+        }
+
+        $.ajax({
+            url: "/api/object/detect",
+            type: 'POST',
+            cache: false,
+            data: post_data,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (content, status) {
+                house_id_list = "";
+                var obj = $.parseJSON(content);
+                result = obj.data;
+                console.log(result);
+                $("#big_p").attr("src", "data:image/png;base64, " + result.image);
+                writetabs(result.matched, 'init');
+                console.log(result.text);
+                $('#content').val((result.text).replace("<br>", "\n"));
+                //writesql((obj.sql));
+            }
+        });
+    }
+    function showDetail(file_name) {
+        alert(file_name);
+        //window.open("/detail?file_name=" + file_name, '_blank');
+    }
+</script>
+{% endblock %}
+
+{% block body %}
+
+
+<div id="container_middle" class="HfwiM">
+
+    <div id="content10" style="width:40%;float:left; padding: 25px;">
+        <img class="bn6k9b" id="big_p" src=""><br><br>
+        <h3> OCR 识别内容区</h3>
+        <textarea class="area" rows="6" id="content" style="display: block;"></textarea>
+
+        <div class="container" style="display: none;">
+            <div class="tab-wrap">
+                <!-- active tab on page load gets checked attribute -->
+                <input type="radio" id="tab1" name="tabGroup1" class="tab" checked>
+                <label for="tab1" class="filter_label">过滤</label>
+
+                <input type="radio" id="tab2" name="tabGroup1" class="tab">
+                <label for="tab2" class="filter_label">ShowSQL</label>
+
+
+                <div class="tab__content">
+                    <div>
+                        <div class="m-filter">
+                            <div class="list-more">
+                                <dl>
+                                    <!--h2>
+                                    <dt title="北京房型在售二手房">房型</dt>
+                                 </h2-->
+                                    <label class="filter_label">房型</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="room_num"
+                                                value="2室">2室</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="room_num"
+                                                value="3室">3室</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="room_num"
+                                                value="4室">4室</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="room_num"
+                                                value="5室">5室</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="room_num"
+                                                value="6室">6室</label>
+                                    </dd>
+                                </dl>
+                                <dl style="display: none;">
+                                    <label class="filter_label">楼层</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="floor"
+                                                value="高楼层">高楼层</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="floor"
+                                                value="低楼层">低楼层</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="floor"
+                                                value="中楼层">中楼层</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="floor" value="底层">
+                                            底层 </label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="floor" value="顶层">
+                                            顶层 </label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <label class="filter_label">装修</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="furnish"
+                                                value="精装">精装</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="furnish"
+                                                value="简装">简装</label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <label class="filter_label">电梯</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="elevator"
+                                                value="有">有电梯</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="elevator"
+                                                value="无">无电梯</label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <label class="filter_label">供暖</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="heating_type"
+                                                value="集中供暖">集体供暖</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="heating_type"
+                                                value="自供暖"> 自供暖
+                                        </label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <label class="filter_label">权属</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="ownership"
+                                                value="商品房">商品房</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="ownership"
+                                                value="公房">公房
+                                        </label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="ownership"
+                                                value="其他">其他
+                                        </label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <label class="filter_label">类型</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox" name="building_type"
+                                                value="塔楼">塔楼
+                                        </label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="building_type"
+                                                value="板楼">板楼
+                                        </label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="building_type"
+                                                value="板塔结合">板塔结合</label>
+                                        <label class="checkbox-inline"><input type="checkbox" name="building_type"
+                                                value="独栋">独栋</label>
+                                    </dd>
+                                </dl>
+
+                                <dl style="display: none;">
+                                    <label class="filter_label">面积</label>
+                                    <dd>
+                                        <label class="checkbox-inline"><input type="checkbox">50㎡以下</label>
+                                        <label class="checkbox-inline"><input type="checkbox">50-70㎡</label>
+                                        <label class="checkbox-inline"><input type="checkbox">70-90㎡</label>
+                                        <label class="checkbox-inline"><input type="checkbox">90-110㎡</label>
+                                        <label class="checkbox-inline"><input type="checkbox">110-130㎡</label>
+                                        <label class="checkbox-inline"><input type="checkbox">130-150㎡</label>
+                                        <label class="checkbox-inline"><input type="checkbox">150-200㎡</label>
+                                        <label class="checkbox-inline"><input type="checkbox">200㎡以上</label>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="filter_label">筛选条件&nbsp;</label>
+                            <input class="form-control" id="core_condition">
+                        </div>
+                        <div class="form-group" style="display: none;">
+                            <label class="filter_label">小区条件&nbsp;</label>
+                            <input class="form-control" id="community_condition">
+                        </div>
+
+                        <div class="buttons">
+                            <button class="search-button" onclick="init_page()">重置</button>
+                            <button class="search-button" onclick="filter_house()">搜索</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab__content" id="showsql">
+                    <p>SELECT
+                        <br>image_name,
+                        <br>description,
+                        <br>house_id,
+                        <br>position,
+                        <br>dis
+                        <br>FROM
+                        <br> (
+                        <br> SELECT
+                        <br> image_name,
+                        <br> 核心卖点 AS description,
+                        <br> house_id,
+                        <br> position,
+                        <br> vector_distance(image_embedding,vector('<图片向量>'),cosine) AS dis
+                            <br> FROM
+                            <br> house
+                            <br> WHERE
+                            <br> type IN ( 'demo' )
+                            <br> ) a
+                            <br>WHERE
+                            <br> dis <= 0.2 <br>ORDER BY
+                                <br> dis ASC
+                                <br>FETCH FIRST 9 ROWS ONLY;
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+
+    <div id="content11" style="width:60%;float:left;">
+
+        <div class="row" id="list_append" style="padding: 0px 30px; ">
+            <!-- <div class="col-sm-4">
+                        <div class="contact-box">
+                                <div class="col-sm-4-0">
+                                    <div class="text-center">
+                                        <img alt="image" class="img-circle m-t-xs img-responsive" src="/static/images/7.jpg">
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><i class="fa fa-map-marker"></i> 朝阳·奥林匹克公园</p>
+                                    <p>2公里生活圈：易世达购物广场，时代百货，物美，麦德龙，泰禾影院，上品＋，卜蜂莲花、满足购物需求； 有建设银行，农业银行，招商银行，北京农商银行、航空总医院，奥森公园等满足日常生活需求，配套成熟完善
+                                    </p>
+                                </div>
+                        </div>
+                    </div> -->
+
+        </div>
+    </div>
+
+</div>
+
+<!-- <script src="/static/js/jquery.min.js?v=2.1.4"></script> -->
+<!-- <script src="/static/js/bootstrap.min.js?v=3.3.6"></script> -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.contact-box').each(function () {
+            animationHover(this, 'pulse');
+        });
+    });
+    function animationHover(element, animation) {
+        element = $(element);
+        element.hover(
+            function () {
+                element.addClass('animated ' + animation);
+            },
+            function () {
+                //动画完成之前移除class
+                window.setTimeout(function () {
+                    element.removeClass('animated ' + animation);
+                }, 2000);
+            });
+    }
+    function getCheckedValue(name) {
+        var temp = new Array();
+        $('input:checkbox[name="' + name + '"]:checked').each(function (k) {
+            temp.push($(this).val());
+            //alert($(this).val());
+            //temp = temp+ (temp.length>0? "','":"" + $(this).val());
+            //alert(temp);
+        });
+        //alert(temp.join("','"));
+        if (temp.length > 0) {
+            return " and " + name + " in ('" + temp.join("','") + "')";
+        } else {
+            return "";
+        }
+
+    }
+    //function mergeCondition(colnum_name,condition){
+    //    if(condition.length>0){
+    //        return " and "+ colnum_name + " in " + condition;
+    //    }else{
+    //        return " "
+    //    }
+    //}
+    function filter_house() {
+        var core_condition = $("#core_condition").val();
+        var community_condition = $("#community_condition").val();
+        var condition = ""
+        condition = condition + getCheckedValue("room_num");
+        condition = condition + getCheckedValue("floor");
+        condition = condition + getCheckedValue("furnish");
+        condition = condition + getCheckedValue("elevator");
+        condition = condition + getCheckedValue("heating_type");
+        condition = condition + getCheckedValue("ownership");
+        condition = condition + getCheckedValue("building_type");
+
+        //alert(condition);
+        if ("" == core_condition && condition == "" && community_condition == "") {
+            alert("您可以试着勾选想要筛选的房源条件，或者输入筛选条件！");
+            return;
+        } else {
+            $.ajax({
+                url: "/action",
+                type: 'POST',
+                cache: false,
+                data: JSON.stringify({
+                    "opper": "filterQuery",
+                    "house_id_list": house_id_list,
+                    "condition": condition,
+                    "core_condition": core_condition,
+                    "community_condition": community_condition
+                }),
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                contentType: "application/json",
+                success: function (content, status) {
+                    //alert(content);
+                    var obj = $.parseJSON(content);
+                    result = obj.data;
+                    if (result.length == 0) {
+                        alert("我没有找到符合您要求的数据，请重新输入筛选条件再试一次吧！");
+                        return;
+                    }
+                    //house_id_list = "";
+                    writetabs(result, 'filter');
+                    writesql((obj.sql));
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}

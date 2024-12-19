@@ -1,0 +1,292 @@
+
+/* ----中间部分--- */
+.cen{
+	width: 1220px;
+	margin: 20px auto;
+}
+.cen .theme{
+	width: 1130px;
+	margin: 0 auto;
+	position: relative;
+}
+.theme .t_box{
+	width: 1130px;
+	height: 308px;
+	/* overflow: hidden; */
+}
+.theme .t_box .one{
+	width: 210px;
+	height: 308px;
+	background-color: white;
+	float: left;
+	margin-right: 20px;
+	position: relative;
+	border-radius: 5px;
+}
+.theme .t_box .one.one_t{
+	margin-right: 0;
+}
+.theme .t_box .one>a img{
+	width: 210px;
+	vertical-align: bottom;
+}
+.theme .t_box .one>a img:hover{
+	opacity: 0.8;
+}
+.theme .t_box .one .info{
+	border-bottom: 1px solid #eee;
+	padding: 11px 16px 13px;
+	height: 75px;
+	position: relative;
+}
+.theme .t_box .one .info p:nth-of-type(1):hover{
+	color: orange;
+}
+.theme .t_box .one .info .p3 span{
+	font-size: 14px;
+	color: darkgray;
+	margin-right: 10px;
+	position: relative;
+}
+.theme .t_box .one .info .p3 span img{
+	margin-right: 4px;
+	position: relative;
+	top: 2px;
+}
+.theme .t_box .one .item{
+	height: 50px;
+    line-height: 50px;
+    padding: 0 16px;
+    font-size: 12px;
+    position: relative;
+}
+.theme .t_box .one .item .sp1{
+	width: 120px;
+	height: 50px;
+	display: inline-block;
+}
+.theme .t_box .one .item .sp1 a{
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+.theme .t_box .one .item .sp1 a:hover{
+	color: orange;
+}
+.theme .t_box .one .item img{
+	width:24px;
+	position: relative;
+	top: 8px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.theme .t_box .one .ihide{
+	position: absolute;
+	width: 210px;
+	height: 229px;
+	border-radius: 5px;
+	z-index: 11;
+	left: 0;
+	bottom: 49px;
+	background-color: white;
+	box-shadow: 2px 6px 15px rgba(0,0,0,.15);
+    text-align: center;
+    padding: 30px 0 21px;
+	display: none;
+}
+.theme .t_box .one .ihide::before{
+	content: '';
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	background-color: white;
+	transform: rotate(45deg);
+	bottom: -5px;
+	left: 23px;
+}
+.theme .t_box .one .ihide>img{
+	width: 80px;
+	margin: 0 auto 0;
+	border-radius: 50%;
+}
+.theme .t_box .one .ihide .p1:hover{
+	color: orange;
+	
+}
+.theme .t_box .one .ihide .uls{
+	list-style: none;
+	overflow: hidden;
+	margin-top: 20px;
+}
+.theme .t_box .one .ihide .uls .pp:hover{
+	color: orange;
+}
+.theme .t_box .one .ihide .uls li{
+	float: left;
+	width: 50%;
+    text-align: center;
+	position: relative;
+}
+.theme .t_box .one .ihide .uls li:nth-of-type(1)::before{
+	content: '';
+	width: 1px;
+	height: 28px;
+	background-color: darkgray;
+	right: 0;
+	position: absolute;
+}
+.theme .t_box .one .ihide button{
+	margin-top: 12px;
+	width: 80px;
+	height: 32px;
+	border: none;
+	border-radius: 5px;
+}
+.theme .t_box .one .ihide button.btn1{
+	background-color: #ffe300;
+	cursor: pointer;
+}
+.theme .t_box .one .ihide button.btn1:hover{
+	background-color: orange;
+}
+.theme .t_box .one .ihide button.btn2{
+	border: 1px solid darkgray;
+	background-color: white;
+	cursor: pointer;
+}
+.theme .t_box .one .ihide button.btn2:hover{
+	border: 1px solid black;
+}
+.theme .bo{
+	margin-top: 20px;
+}
+.theme .yeshu{
+	margin: 40px auto 0;
+	width: 576px;
+	height: 40px;
+}
+.theme .yeshu ul{
+	list-style: none;
+	overflow: hidden;
+}
+.theme .yeshu ul li{
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	border: 1px solid gainsboro;
+	float: left;
+	color: #999;
+    border-radius: 4px;
+	margin: 0 3px;
+	background-color: white;
+}
+.theme .yeshu ul li.lis{
+	cursor: pointer;
+}
+.theme .yeshu ul li.lis:hover{
+	background-color: #ffe300;
+	border: 1px solid #ffe300;
+}
+.theme .yeshu ul li.lis2{
+	display: none;
+}
+.theme .yeshu ul li.lis3{
+	background-color: #ffe300;
+	border: 1px solid #ffe300;
+}
+.theme .yeshu ul li.lis5{
+	cursor: pointer;
+}
+.theme .yeshu ul li.lis5:hover{
+	background-color: #ffe300;
+	border: 1px solid #ffe300;
+}
+.cen .mg1{
+	width: 1130px;
+	height: 100px;
+	margin: 30px auto 0;
+}
+.cen .mg1 img{
+	width: 1130px;
+}
+.cen .clike{
+	width: 1130px;
+	height: 237px;
+	margin: 30px auto 0;
+}
+.cen .clike .p1{
+	font-size: 14px;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.cen .clike .p1 span{
+	float: right;
+	color: coral;
+	cursor: pointer;
+}
+.cen .clike .c_box{
+	width: 1130px;
+	margin: 0 auto;
+	list-style: none;
+	overflow: hidden;
+}
+.cen .clike .c_box li{
+	width: 210px;
+	height: 199px;
+	margin-right: 20px;
+	background-color: white;
+	float: left;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.cen .clike .c_box li:nth-of-type(5){
+	margin: 0;
+}
+.cen .clike .c_box li>img{
+	width: 210px;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+.cen .clike .c_box li>img:hover{
+	opacity: 0.8;
+}
+.cen .clike .c_box li p{
+	padding: 10px 8px;
+	font-size: 14px;
+	overflow: hidden;
+}
+.cen .clike .c_box li p a{
+	text-decoration: none;
+	color: black;
+}
+.cen .clike .c_box li p a:hover{
+	color: #d36f16;
+}
+.cen .clike .c_box li p span{
+	float: right;
+}
+.rtn{
+	width: 50px;
+	height: 50px;
+	background-color: rgba(0,0,0,0.15);
+	border-radius: 5px;
+	cursor: pointer;
+	margin-left: 1146px;
+	overflow: hidden;
+	display: none;
+}
+.rtn img{
+	margin-left: 17px;
+	margin-top: 20px;
+}
+.rtn img.im2{
+	display: none;
+}
+.rtn:hover .im1{
+	display: none;
+}
+.rtn:hover .im2{
+	display: block;
+}
+

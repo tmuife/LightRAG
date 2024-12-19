@@ -1,0 +1,614 @@
+<!--https://github.com/AndrewNgo-ini/agentic_rag/blob/main/frontend/index.html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RAG Chat</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+
+    <!-- jQuery -->
+    <script src="/static/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.filedrop.js"></script>
+    <script src="/static/js/upload.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 20px;
+            min-width: 600px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            margin-left: 20%;
+        }
+
+        .bot-message {
+            background: #f5f5f5;
+            margin-right: 20%;
+        }
+
+        .section {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff;
+            border-left: 3px solid #2196f3;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .section.animate {
+            animation: sectionFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes sectionFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            padding: 5px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .section-header:hover {
+            background: #e9ecef;
+        }
+
+        .section-content {
+            padding: 10px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-content.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .step-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            opacity: 0;
+            animation: stepFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes stepFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .step-explanation {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1976d2;
+        }
+
+        .step-output {
+            color: #666;
+            font-family: monospace;
+            white-space: pre-wrap;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .reasoning {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff3e0;
+            border-radius: 4px;
+            border-left: 3px solid #ff9800;
+            opacity: 0;
+        }
+
+        .reasoning.animate {
+            animation: reasoningFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes reasoningFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .final-answer {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            border-left: 3px solid #4caf50;
+            opacity: 0;
+        }
+
+        .final-answer.animate {
+            animation: answerFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes answerFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1976d2;
+        }
+
+        button:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            opacity: 0;
+            animation: loadingPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadingPulse {
+            0% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        .toggle-icon {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+
+            0%,
+            20% {
+                content: '.';
+            }
+
+            40% {
+                content: '..';
+            }
+
+            60% {
+                content: '...';
+            }
+
+            80%,
+            100% {
+                content: '';
+            }
+        }
+
+        #dragdroparea {
+            border: 2px dotted #0B85A1;
+            width: 500px;
+            height: 100px;
+            color: #92AAB0;
+            text-align: left;
+            vertical-align: middle;
+            padding: 10px 10px 10 10px;
+            margin-bottom: 10px;
+            font-size: 200%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container_middle" class="HfwiM">
+        <div id="content10" style="width:50%;float:left; padding: 25px;">
+            <div style="display: none;">
+                <h1>Upload a TXT File</h1>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <label for="file">Choose a .txt file:</label>
+                    <input type="file" id="file" name="file" accept=".txt" required>
+                    <br><br>
+                    <button type="submit" onclick="upload_file()">Upload File</button>
+                </form>
+                <div id="response"></div>
+            </div>
+
+            <h1>Text文件上传</h1>
+            <div id="dragdroparea"> Drop file here to upload. </div>
+            <br /><br />
+        </div>
+        <div id="content11" style="width:50%;float:left;" class="container">
+            <div class="chat-container" id="chatContainer"></div>
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Type your message..." />
+                <button id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function createCollapsibleSection(title, content) {
+            const section = document.createElement('div');
+            section.className = 'section';
+
+            const header = document.createElement('div');
+            header.className = 'section-header';
+            header.innerHTML = '<span class="toggle-icon">▶</span> ' + title;
+
+            const sectionContent = document.createElement('div');
+            sectionContent.className = 'section-content';
+            sectionContent.appendChild(content);
+
+            header.addEventListener('click', () => {
+                const icon = header.querySelector('.toggle-icon');
+                icon.classList.toggle('rotated');
+                sectionContent.classList.toggle('show');
+            });
+
+            section.appendChild(header);
+            section.appendChild(sectionContent);
+            return section;
+        }
+
+        async function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+            if (isUser) {
+                messageDiv.textContent = content;
+                chatContainer.appendChild(messageDiv);
+            } else {
+                const { intermediate_steps, reasoning, final_answer } = content;
+                chatContainer.appendChild(messageDiv);
+
+                // Add intermediate steps section if there are any steps
+                if (intermediate_steps && intermediate_steps.length > 0) {
+                    const stepsContent = document.createElement('div');
+                    const stepsSection = createCollapsibleSection('Intermediate Steps', stepsContent);
+                    messageDiv.appendChild(stepsSection);
+
+                    await sleep(500); // Delay before showing steps section
+                    stepsSection.classList.add('animate');
+
+                    for (const step of intermediate_steps) {
+                        const stepDiv = document.createElement('div');
+                        stepDiv.className = 'step-item';
+
+                        const explanationDiv = document.createElement('div');
+                        explanationDiv.className = 'step-explanation';
+                        explanationDiv.textContent = step.explanation;
+
+                        const outputDiv = document.createElement('div');
+                        outputDiv.className = 'step-output';
+                        outputDiv.textContent = step.output;
+
+                        stepDiv.appendChild(explanationDiv);
+                        stepDiv.appendChild(outputDiv);
+                        stepsContent.appendChild(stepDiv);
+
+                        await sleep(300); // Delay between each step
+                    }
+                }
+
+                // Add loading state before reasoning
+                const loadingReasoning = document.createElement('div');
+                loadingReasoning.className = 'loading';
+                loadingReasoning.innerHTML = 'Processing reasoning<span class="loading-dots"></span>';
+                messageDiv.appendChild(loadingReasoning);
+
+                await sleep(1000); // Show loading state
+                messageDiv.removeChild(loadingReasoning);
+
+                // Add reasoning section
+                const reasoningDiv = document.createElement('div');
+                reasoningDiv.className = 'reasoning';
+                reasoningDiv.innerHTML = `<strong>Reasoning:</strong> ${reasoning}`;
+                messageDiv.appendChild(reasoningDiv);
+
+                await sleep(300); // Delay before showing reasoning
+                reasoningDiv.classList.add('animate');
+
+                // Add loading state before final answer
+                const loadingAnswer = document.createElement('div');
+                loadingAnswer.className = 'loading';
+                loadingAnswer.innerHTML = 'Generating answer<span class="loading-dots"></span>';
+                messageDiv.appendChild(loadingAnswer);
+
+                await sleep(800); // Show loading state
+                messageDiv.removeChild(loadingAnswer);
+
+                // Add final answer
+                const finalDiv = document.createElement('div');
+                finalDiv.className = 'final-answer';
+                finalDiv.innerHTML = `<strong>Answer:</strong> ${final_answer}`;
+                messageDiv.appendChild(finalDiv);
+
+                await sleep(300); // Delay before showing final answer
+                finalDiv.classList.add('animate');
+            }
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Disable input and button while processing
+            userInput.disabled = true;
+            sendButton.disabled = true;
+
+            // Add user message to chat
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Add loading message
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = 'Thinking<span class="loading-dots"></span>';
+            chatContainer.appendChild(loadingDiv);
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                const data = await response.json();
+
+                // Remove loading message
+                chatContainer.removeChild(loadingDiv);
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Add bot response to chat
+                await addMessage(data);
+            } catch (error) {
+                // Remove loading message
+                chatContainer.removeChild(loadingDiv);
+
+                // Add error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message bot-message';
+                errorDiv.textContent = `Error: ${error.message}`;
+                chatContainer.appendChild(errorDiv);
+            } finally {
+                // Re-enable input and button
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Focus input on load
+        userInput.focus();
+
+
+
+
+
+        function upload_file() {
+            var fd = new FormData();
+            fd.append('file', (document.getElementById('file').files[0]));
+            console.log(document.getElementById('file').files[0]);
+            var uploadURL = "/upload"; //Upload URL
+            debugger
+            $.ajax({
+                url: uploadURL,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                cache: false,
+                data: fd,
+                timeout: 30000,
+                beforeSend: function (xhr, settings) {
+                    //发送前处理
+                },
+                complete: function (xhr, textStatus) {
+                    //通信完成
+                },
+                success: function (result, textStatus, xhr) {
+                    //ajax通讯成功
+                    //alert("解析完成，等待下载!");
+                    //$("#status1").append(textStatus);
+                    //download(result.csvname);
+
+                },
+                error: function (xhr, textStatus, error) {
+                    //ajax通讯失败
+                    //$('#status1').append('发送失败<br>');
+                }
+            });
+
+        }
+
+        $(function () {
+            function sendFileToServer(formData, status) {
+                var uploadURL = "/upload"; //Upload URL
+                $.ajax({
+                    url: uploadURL,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: formData,
+                    timeout: 30000,
+                    beforeSend: function (xhr, settings) {
+                        //发送前处理
+                    },
+                    complete: function (xhr, textStatus) {
+                        //通信完成
+                    },
+                    success: function (result, textStatus, xhr) {
+                        //ajax通讯成功
+                        alert("解析完成，等待下载!");
+                        //$("#status1").append(textStatus);
+                        download(result.csvname);
+
+                    },
+                    error: function (xhr, textStatus, error) {
+                        //ajax通讯失败
+                        $('#status1').append('发送失败<br>');
+                    }
+                });
+            }
+            function handleFileUpload(files, obj) {
+                var fd = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fd.append('files', files[i]);
+                }
+                //fd.append('start', $("#start").val());
+                //fd.append('filter', $("#filter").val());
+                //fd.append('end', $("#end").val());
+                sendFileToServer(fd, status);
+            }
+            $(document).ready(function () {
+                var obj = $("#dragdroparea");
+                obj.on('dragenter', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                obj.on('dragover', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                obj.on('drop', function (e) {
+                    e.preventDefault();
+                    var files = e.originalEvent.dataTransfer.files;
+                    handleFileUpload(files);
+                });
+                $(document).on('dragenter', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                $(document).on('dragover', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                $(document).on('drop', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

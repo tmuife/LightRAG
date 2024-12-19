@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        html,
+        body,
+        #container {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+        
+        .amap-marker-label {
+            border: 1px solid #53c4f7;
+        }
+        
+        .vl-footer {
+            background-image: url(data:image/jpeg;base64,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);
+            /* background-image: url(./static/image/foot.jpg); */
+            background-repeat: repeat-x;
+            background-size: auto 12px;
+            background-color: var(--oc-colors-main-chBgBase, #312d2a)
+        }
+        
+        #u06,
+        .u10v0,
+        .u10v6 {
+            clear: both;
+            position: relative;
+            background-repeat: repeat-x;
+            background-size: auto 12px;
+            background-color: #312d2a
+        }
+        /*
+        body {
+            background-image: url("https://www.oracle.com/a/ocom/img/bgimg04-bgn-01.png");
+            background-repeat: repeat-y;
+        }
+        */
+        table {
+            table-layout: auto;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            min-width: 100px;
+            word-break: break-word;
+        }
+        
+        #loading-div-background {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #fff;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #loading-div {
+            width: 300px;
+            height: 150px;
+            background-color: #fff;
+            border: 5px solid #1468b3;
+            text-align: center;
+            color: #202020;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px;
+            margin-top: -100px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            behavior: url("/css/pie/PIE.htc");
+            /* HANDLES IE */
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>走失人员智能寻找</title>
+    <link href="/static/css/demo-center.css" rel="stylesheet">
+    <link href="/static/css/docs.e82f05a7.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/jquery-ui.css" rel="stylesheet">
+    <link href="/static/css/redwood-base.css" rel="stylesheet">
+    <link href="/static/css/redwood-styles.css" rel="stylesheet">
+    <link data-wscss="" href="/static/css/redwood-base.css" rel="stylesheet" as="style" onload="this.rel='stylesheet';" onerror="this.rel='stylesheet'">
+    <link data-wscss="" href="/static/css/redwood-styles.css" rel="stylesheet" as="style" onload="this.rel='stylesheet';" onerror="this.rel='stylesheet'">
+
+    <script src="/static/js/jquery.js"></script>
+    <!--script src="/static/js/jquery.blockUI.js"></script-->
+    <!--script src="/static/js/demo.js"></script-->
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/opendiv.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/es5.min.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=238ae5517d7e6a2ef1c374a28fcdc645"></script>
+    <style>
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+        padding: 8px;
+        line-height: 1.75;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        }
+
+    </style>
+</head>
+
+<body class="rw-neutral-10bg rw-pattern9 rw-pattern-50p rw-pattern-small lazyrwpattern-observed rw-pattern-load bgimgw1">
+    <section id="u30" class="u30 u30v0 searchv2 ws-sticky rw-sticky contentloaded" data-trackas="header" role="banner">
+        <div class="u30w1 cwidth" id="u30w1">
+            <div id="u30brand" class="u30brand">
+                <div class="u30brandw1">
+                    <a id="u30btitle" href="/" data-lbl="logo" aria-label="Oracle Home" class="o-hf">
+                        <div id="u30logo">
+                            <svg style="display:block" class="u30-oicn" xmlns="http://www.w3.org/2000/svg" width="32" height="21" viewBox="0 0 32 21"><path fill="#C74634" d="M9.9,20.1c-5.5,0-9.9-4.4-9.9-9.9c0-5.5,4.4-9.9,9.9-9.9h11.6c5.5,0,9.9,4.4,9.9,9.9c0,5.5-4.4,9.9-9.9,9.9H9.9 M21.2,16.6c3.6,0,6.4-2.9,6.4-6.4c0-3.6-2.9-6.4-6.4-6.4h-11c-3.6,0-6.4,2.9-6.4,6.4s2.9,6.4,6.4,6.4H21.2"></path></svg>
+                        </div>
+                    </a>
+                    <a id="u30btxt" href="/cloud/" aria-label="Oracle Cloud Infrastructure" data-lbl="Logotxt">
+                        <!-- <svg id="u30brandtxt" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.14 18.12" width="39" height="19"><path fill="#ffffff" d="M8.16,18.12a7.76,7.76,0,0,1-6.05-2.35A9.79,9.79,0,0,1,0,9.05,9.58,9.58,0,0,1,2.14,2.38,7.65,7.65,0,0,1,8.16,0a7.65,7.65,0,0,1,6,2.38,9.58,9.58,0,0,1,2.14,6.67,9.79,9.79,0,0,1-2.11,6.72A7.71,7.71,0,0,1,8.16,18.12Zm0-3.19a3.69,3.69,0,0,0,3.24-1.51,7.48,7.48,0,0,0,1.08-4.37A7.37,7.37,0,0,0,11.4,4.7,3.69,3.69,0,0,0,8.16,3.19,3.75,3.75,0,0,0,4.9,4.7,7.45,7.45,0,0,0,3.84,9.05,7.56,7.56,0,0,0,4.9,13.42,3.75,3.75,0,0,0,8.16,14.93ZM32,14v3.12a11.25,11.25,0,0,1-2.19.72,10.85,10.85,0,0,1-2.71.31q-4.2,0-6.36-2.38T18.54,8.86A9.81,9.81,0,0,1,19.6,4.13a7.18,7.18,0,0,1,3-3A9.38,9.38,0,0,1,27.23,0a10.19,10.19,0,0,1,2.35.26,9,9,0,0,1,1.9.68V4.1a15.34,15.34,0,0,0-2.21-.67,8.49,8.49,0,0,0-1.78-.19A4.85,4.85,0,0,0,23.7,4.7a6,6,0,0,0-1.32,4.16,6.85,6.85,0,0,0,1.3,4.48,4.66,4.66,0,0,0,3.81,1.56,10.24,10.24,0,0,0,2-.21A22.73,22.73,0,0,0,32,14Zm2.44,3.81V.34h3.74V17.78Z"></path></svg>                         -->
+                        Oracle China AI Lab - 走失人员智能寻找
+                    </a>
+                </div>
+            </div>
+            <div id="u30tools" class="u30tools">
+            </div>
+        </div>
+    </section>
+    <div id="container_top" style="text-align: center;width:100%;height: 1%;">&nbsp;</div>
+    <div id="container_outmost" style="text-align: center;width:100%;">
+        <div id="container_middle" style="height:100%;width:100%;float:left;">
+            <div id="content1" style="height:368px;width:100%;float:left;">
+                <div id="content10" style="width:29%;float:left;">&nbsp;</div>
+                <div id="content11" style="width:40%;float:left;">
+                    <div id="content111" style="width:100%;float:left;">
+                        <video id="preview" style="height:368px;width:100%;background-color: rgba(172, 172, 167, 0.5);" height="368px" autoplay></video>
+                        <div class="obttns" style="align-items: center;">
+                            <div class="obttn" onclick="UpRecordFaceDB()"><a data-lbl="try-oci-for-free:rh09">上传录入</a></div>
+                            <div class="obttn" onclick="UpCaptureFace()"><a data-lbl="try-oci-for-free:rh09">上传查询</a></div>
+                            <div class="obttn" id="RegisterFace"><a data-lbl="try-oci-for-free:rh09">人脸录入</a></div>
+                            <div class="obttn" id="QueryFace"><a data-lbl="try-oci-for-free:rh09">识别&查询</a></div>
+                            <div class="obttn" id="stop"><a data-lbl="try-oci-for-free:rh09">关闭视频</a></div>
+                        </div>
+                        <br><input class="form-control" id='facename' value="" style="display: none;">
+                    </div>
+                    <div id="content112" style="height:100%;width:0%;float:left;">
+                        <div style="background-color: #FFFFFF;display: none;">
+                            <h4>场所列表</h4>
+                            <ul class="list-group" id="positionlist" style="display: block;font-size: 14.5px;">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="content12" style="width:1%;float:left;">&nbsp;</div>
+                <div id="content13" style="height:100%;width:28%;float:left;">
+                    <table class="table" id="jsonTable" style="width:100%;display:table;font-size: 14px;">
+                        <thead style="width:100%;">
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="content14" style="width:1%;float:left;">&nbsp;</div>
+            </div>
+            <!--make some space between two main div-->
+            <div id="content_blank" style="height:60px;width:100%;float:left;"></div>
+
+
+            <div id="content2" style="height:400px;width:100%;float:left;">
+                <div id="content20" style="width:29%;float:left;">&nbsp;</div>
+                <div id="content21" style="height:100%;width:40%;float:left;">
+                    <br><p style="font-size: 20px;">查询<span id="span_query" style="color: #ff0000;"><b>某人</b></span>在<span style="color: #ff0000;"><b>近15天</b></span>出现在"中关村公园"<span style="color: #ff0000;"><b>附近3公里内</b></span>出现次数<span style="color: #ff0000;"><b>超过3次</b></span>的<span style="color: #ff0000;"><b>前 8 </b></span>个场所<span onclick="ShowCode('code')"><a></a></span></p><br>
+                    <div id="architecture" style="display: block;">
+                        <img style="height:80%;width:100%" src="./static/image/Architecture.jpg" />
+                    </div>
+                    <div id="ShowCode_fix" style="display: block; width: 2%;float:left;">&nbsp;</div>
+                    <div id="ShowCode" style="display: none; width: 98%;float:left;">
+                        <p align="left" style="font-size: 18px; align-self: start;">
+                            select a.identify_name,c.id,c.lng,c.lat,c.name,to_char(max(a.visit_datetime),'YYYY-MM-DD') as visit_datetime<br>
+                            ,count(1) as visit_times<br>
+                            from <span style="color: #62c43b;"><b>visit_samples a</b></span><br>
+                            inner join <span style="color: #3b92c4;"><b>position_samples b</b></span> on b.id='B000A9I424'<br>
+                            inner join <span style="color: #3b92c4;"><b>position_samples c</b></span> on a.position_id = c.id<br>
+                            inner join (SELECT collection_name from <span style="color: #d6612a;"><b>face_embedding</b></span> WHERE <span style="color: #ff0000;"><b>VECTOR_DISTANCE(embedding, vector(:1), EUCLIDEAN) < 0.4</b></span> ORDER BY VECTOR_DISTANCE(embedding, vector(:2), EUCLIDEAN) <br>
+                            FETCH FIRST 1 ROWS ONLY) d on d.collection_name=a.identify_name<br>
+                            where <span style="color: #ff0000;"><b>ROUND(SDO_GEOM.SDO_DISTANCE(b.location, c.location, 0.05, 'unit=km'), 2) < 3</b></span> <br>
+                            and a.visit_datetime>=:3<br>
+                            <span style="color: #ff0000;"><b>group by</b></span> a.identify_name,c.id,c.lng,c.lat,c.name <span style="color: #ff0000;"><b>having count(1) >3 </b></span><br> 
+                            order by count(1) desc <br>
+                            fetch first 8 rows only<br>
+                            
+                        </p>
+                    </div>
+                </div>
+                <div id="content22" style="width:1%;float:left;">&nbsp;</div>
+
+                <div id="content23" style="height:100%;width:28%;float:left;display: block;">
+                    <!--br><p style="font-size: 20px;">&nbsp;</p><br-->
+                    <br>
+                    <div id="yooo" style="display: none;height:100%;width:100%;float:left;">
+                    </div>
+
+                </div>
+                <div id="content24" style="width:1%;float:left;">&nbsp;</div>
+            </div>
+
+            <div id="footer" class="vl-footer" style="clear:both;text-align:center;"></div>
+
+        </div>
+    </div>
+
+
+
+    <div id="loading-div-background">
+        <div id="loading-div" class="ui-corner-all">
+            <img style="height:150px;width:200px;" src="./static/image/please_wait.gif" alt="Loading.." /><br>处理中.请等待...
+        </div>
+    </div>
+
+    
+    <!--div id="ShowCode" title="Oracle DB Query Code ！" style="display: none;">
+        <p style="font-size: 18px;">查询某人<span style="color: #ff0000;"><b>近15天</b></span>出现在"中关村公园"<span style="color: #ff0000;"><b>附近3公里内</b></span>出现次数<span style="color: #ff0000;"><b>超过3次</b></span>的<span style="color: #ff0000;"><b>top 8 </b></span>个场所</p>
+        <br><img src="static/image/oracledb_white.jpg" style="width:100%;">
+    </div-->
+    <!--如果你想让用户选择多个文件，只需在 input 元素上使用 multiple 属性-->
+    <input type="file" style="display: none;" id="file" name="file" multiple />
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+
+    <button style="display: none;">拍照</button>
+
+    <script>
+        var upoppertype = ""
+        var lastClickTime = 0;
+        var delay = 1000;
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                .then(function(stream) {
+                    var videoElement = document.getElementById("preview");
+                    var canvasElement = document.getElementById("canvas");
+                    var context = canvasElement.getContext("2d");
+                    var RegisterFace = document.getElementById("RegisterFace");
+                    var QueryFace = document.getElementById("QueryFace");
+
+                    videoElement.srcObject = stream;
+
+                    RegisterFace.addEventListener("click", function() {
+                        //alert(canvasElement.width);
+                        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                        //context.drawImage(videoElement, 0, 0, 640, 480);
+                        //imageElement.src = canvasElement.toDataURL("image/png");
+                        dataURL = canvasElement.toDataURL("image/png");
+                        var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+                        //var data = new FormData();
+                        //data.append("image", base64);
+                        var facename = prompt("请输入名字，让我记住你！");
+                        if (facename === null) {
+                            return;
+                        } else {
+                            if ("" == facename) {
+                                alert("input your name");
+                                return;
+                            }
+                        }
+                        //$.blockUI({ message: '<h1><img src="./static/image/please_wait.gif" /></h1>' });
+                        $('#loading-div-background').slideDown(200);
+                        $.ajax({
+                            url: "/requests_ajax",
+                            type: 'POST',
+                            cache: false,
+                            data: JSON.stringify({
+                                "opper": "recordface",
+                                "facename": facename,
+                                "image": base64
+                            }),
+                            processData: false,
+                            contentType: false,
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(content, status) {
+                                //$.blockUI({ message: '<h1><img src="./static/image/please_wait.gif" /></h1>' });
+                                //$.unblockUI();
+                                $('#loading-div-background').slideUp(200);
+                                var result = $.parseJSON(content);
+                                if ("success" == result.status) {
+                                    alert(result.data);
+                                } else {
+                                    alert(result.error);
+                                }
+                            }
+                        });
+                    });
+
+                    QueryFace.addEventListener("click", function() {
+                        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                        dataURL = canvasElement.toDataURL("image/png");
+                        var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+                        //$('#loading-div-background').slideDown(200);
+                        $('#loading-div-background').slideDown(200);
+                        $.ajax({
+                            url: "/requests_ajax",
+                            type: 'POST',
+                            cache: false,
+                            data: JSON.stringify({
+                                "opper": "query",
+                                "facename": "Mr",
+                                "image": base64
+                            }),
+                            processData: false,
+                            contentType: false,
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(content, status) {
+                                var result = $.parseJSON(content);
+                                if ("fail" == result.status) {
+                                    $('#loading-div-background').slideUp(200);
+                                    alert(result.error);
+                                    var tableHead = $('#jsonTable thead');
+                                    tableHead.children().remove();
+                                    var tableBody = $('#jsonTable tbody');
+                                    tableBody.children().remove();
+                                    $("#content23").css("display", "none");
+                                    $("#content10").css("width", "29%");
+                                    $("#content13").css("width", "28%");
+                                    $("#content20").css("width", "29%");
+                                    $("#content23").css("width", "28%");
+                                    $("#ShowCode").css("display", "none");
+                                    $("#architecture").css("display", "block");
+                                    $("#span_query").text("某人");
+                                } 
+                                //alert(content);
+                                var obj = $.parseJSON(content);
+                                result = obj.data;
+                                initPage(result);
+                            }
+                        });
+                        /*
+                        $.ajax({
+                            url: "/requests_ajax",
+                            type: 'POST',
+                            cache: false,
+                            data: JSON.stringify({
+                                "opper": "identify",
+                                "facename": "",
+                                "image": base64
+                            }),
+                            processData: false,
+                            contentType: false,
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(content, status) {
+                                $('#loading-div-background').slideUp(200);
+                                var result = $.parseJSON(content);
+
+                                if ("success" == result.status) {
+                                    $("#facename").val(result.data);
+                                    if("unknow" == result.data){
+                                        alert("没有查询到匹配的记录，请确保已录入人脸信息然后正脸面对摄像头再试一次吧。");
+                                        return;
+                                    }
+                                    if (confirm("识别出上传图片中的人是：" + $("#facename").val() + " 要查询此人数据吗？")) {
+                                        //$('#loading-div-background').slideDown(200);
+                                        //$("#file").val('');
+                                        //$("#file").css("display", "none");
+                                        //queryDB();
+                                        var identified_name = $("#facename").val()
+                                        if ("" == identified_name) {
+                                            alert("请先识别要查询的人！");
+                                            return;
+                                        } else {
+                                            $('#loading-div-background').slideDown(200);
+                                            $.ajax({
+                                                url: "/requests_ajax",
+                                                type: 'POST',
+                                                cache: false,
+                                                data: JSON.stringify({
+                                                    "opper": "query",
+                                                    "facename": identified_name,
+                                                    "image": base64
+                                                }),
+                                                processData: false,
+                                                contentType: false,
+                                                dataType: "json",
+                                                contentType: "application/json",
+                                                success: function(content, status) {
+                                                    //alert(content);
+                                                    var obj = $.parseJSON(content);
+                                                    result = obj.data;
+                                                    initPage(result);
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        $('#loading-div-background').slideUp(200);
+                                    }
+                                } else {
+                                    alert(result.error);
+                                }
+                            }
+                        });
+                        */
+                    });
+                    var stop = document.getElementById("stop");
+                    stop.addEventListener("click", function() {
+                        //$.blockUI({ message: '<h1><img src="./static/image/please_wait.gif" /> Just a moment...</h1>' });
+                        stopBothVideoAndAudio(stream);
+                        //$.unblockUI();
+                    });
+                })
+                .catch(function(error) {
+                    console.error("获取摄像头输入流失败:", error);
+                });
+        } else {
+            console.error("浏览器不支持摄像头调用");
+        }
+
+        // stop both mic and camera
+        function stopBothVideoAndAudio(stream) {
+            stream.getTracks().forEach((track) => {
+                if (track.readyState == 'live') {
+                    track.stop();
+                }
+            });
+        }
+
+        function startBothVideoAndAudio(stream) {
+            //stream.
+        }
+        // stop only camera
+        function stopVideoOnly(stream) {
+            stream.getTracks().forEach((track) => {
+                if (track.readyState == 'live' && track.kind === 'video') {
+                    track.stop();
+                }
+            });
+        }
+
+        // stop only mic
+        function stopAudioOnly(stream) {
+            stream.getTracks().forEach((track) => {
+                if (track.readyState == 'live' && track.kind === 'audio') {
+                    track.stop();
+                }
+            });
+        }
+        //drawMap("");
+
+        function initPage(result) {
+
+            if (result.length == 0) {
+                $('#loading-div-background').slideUp(200);
+                //$("#dialog").dialog();
+                alert("系统没有发现此人行踪轨迹的记录！");
+                var tableHead = $('#jsonTable thead');
+                tableHead.children().remove();
+                var tableBody = $('#jsonTable tbody');
+                tableBody.children().remove();
+                $("#content23").css("display", "none");
+                $("#content10").css("width", "29%");
+                $("#content13").css("width", "28%");
+                $("#content20").css("width", "29%");
+                $("#content23").css("width", "28%");
+                $("#ShowCode").css("display", "none");
+                $("#architecture").css("display", "block");
+                $("#span_query").text("某人");
+            }else{
+                var tableHead = $('#jsonTable thead');
+                tableHead.children().remove();
+                var row = $('<tr>');
+                row.append($('<th style="display: none;">').text("匹配结果"));
+                row.append($('<th>').text("拍摄地点_ID"));
+                row.append($('<th>').text("拍摄经度"));
+                row.append($('<th>').text("拍摄纬度"));
+                row.append($('<th>').text("摄像头地点名称"));
+                row.append($('<th>').text("最后拍摄时间"));
+                row.append($('<th>').text("出现次数"));
+                tableHead.append(row);
+                
+                var tableBody = $('#jsonTable tbody');
+                tableBody.children().remove();
+                $.each(result, function(index, object) {
+                    var row = $('<tr>');
+                    $.each(object, function(key, value) {
+                        if("IDENTIFY_NAME" == key){
+                            row.append($('<td style="display:none;">').text(value));
+                            //$("#span_query").text(value);
+                            $("#span_query").text("某人");
+                        }else{
+                            row.append($('<td>').text(value));
+                        }
+                        
+                    });
+                    tableBody.append(row);
+                });
+                $("#jsonTable").css("display", "table");
+                $("#content23").css("display", "block");
+                $("#content10").css("width", "1%");
+                $("#content13").css("width", "57%");
+                $("#content20").css("width", "1%");
+                $("#content23").css("width", "57%");
+                drawMap(result);
+                $("#ShowCode").css("display", "block");
+                $("#architecture").css("display", "none");
+            }
+
+
+           //var positionlist = $('#positionlist');
+           //positionlist.children().remove();
+           //$.each(result, function(index, object) {
+           //    var li = $('<li class="list-group-item d-flex justify-content-between align-items-center">');
+           //    $.each(object, function(key, value) {
+           //        if ("NAME" == key) {
+           //            li.text(value);
+           //        }
+           //        if ("VISIT_TIMES" == key) {
+           //            li.append($('<span class="badge badge-primary badge-pill">').text(value));
+           //        }
+           //    });
+           //    positionlist.append(li);
+           //});
+            //$("#positionlist").css("display", "block");
+            
+            $('#loading-div-background').slideUp(200); //将显示的窗口隐藏起来 
+            
+        }
+        function ShowCode(type){
+            if("code" == type){
+                var displayValue = $('#ShowCode').css('display');
+                if("none" == displayValue){
+                    $("#ShowCode").css("display", "block");
+                    $("#architecture").css("display", "none");
+                }else{
+                    $("#ShowCode").css("display", "none");
+                    $("#architecture").css("display", "block");
+                }
+                
+                //$("#yooo").css("display", "none");
+            }
+        }
+        function drawMap(result) {
+            $("#yooo").css("display", "block");
+            //$("#content21").css("display", "block");
+            
+            //alert("Start Mapping");
+            var map = new AMap.Map("yooo", {
+                zoom: 13,
+                center: [116.283458, 40.060895],
+                resizeEnable: true,
+                mapStyle: 'amap://styles/whitesmoke'
+            });
+            //alert(map);
+            var positions = []
+            var anchor = []
+                // var positions = [
+                //     [116.2894232, 40.0477313],
+                //     [116.287471, 40.049437],
+                //     [116.291711, 40.046150],
+                //     [116.289761, 40.045996],
+                //     [116.288394, 40.046789],
+                //     [116.289200, 40.050515]
+                // ];
+                // var anchor = [
+                //     'Oracle',
+                //     '启明星辰大厦',
+                //     '环宇大厦',
+                //     '北京立思辰大厦',
+                //     '北京高校大学生创业园',
+                //     '中欧国际工商学院'
+                // ]
+            if ("" != result) {
+                //alert(1)
+                positions = new Array();
+                anchor = new Array();
+                var loopindex = 0;
+                $.each(result, function(index, object) {
+                    positions[loopindex] = new Array()
+                    $.each(object, function(key, value) {
+                        if ("LNG" == key) {
+                            positions[loopindex][0] = value;
+                        }
+                        if ("LAT" == key) {
+                            positions[loopindex][1] = value;
+                        }
+                        if ("NAME" == key) {
+                            anchor[loopindex] = value;
+                        }
+                    });
+                    loopindex++;
+                });
+            }
+            var pos_icon = [];
+            var pos_marker = [];
+            var icon = [];
+            var marker = [];
+            for (var i = 0; i < positions.length; i++) {
+                // 创建一个 Icon
+                pos_icon[i] = new AMap.Icon({
+                    // 图标尺寸
+                    size: new AMap.Size(12, 12),
+                    // 图标的取图地址
+                    image: '//a.amap.com/jsapi_demos/static/demo-center/marker/marker.png',
+                    // 图标所用图片大小
+                    imageSize: new AMap.Size(12, 12),
+                });
+                var labelContent = "<div class='labelContent'>" + anchor[i] + "</div>"
+
+                // 将 Icon 传入 marker
+                pos_marker[i] = new AMap.Marker({
+                    position: positions[i],
+                    icon: pos_icon[i],
+                    anchor: 'center', //设置锚点
+                    offset: new AMap.Pixel(0, 0) //设置偏移量
+                });
+                map.add(pos_marker[i]);
+
+                // 创建一个 Icon
+                var imageUrl = '//a.amap.com/jsapi_demos/static/demo-center/marker/icon.png'
+                icon[i] = new AMap.Icon({
+                    // 图标尺寸
+                    size: new AMap.Size(12, 12),
+                    // 图标的取图地址
+                    image: imageUrl,
+                    // 图标所用图片大小
+                    imageSize: new AMap.Size(1, 1),
+                });
+                // 将 Icon 传入 marker
+                var labelOffset = new AMap.Pixel(-23, -28);
+                marker[i] = new AMap.Marker({
+                    position: positions[i],
+                    icon: icon[i],
+                    anchor: anchor[i], //设置锚点
+                    offset: new AMap.Pixel(0, 0), //设置偏移量
+                    label: {
+                        content: labelContent,
+                        offset: labelOffset
+                    }
+                });
+                map.add(marker[i]);
+            }
+
+        }
+
+function drawMapB(obj) {
+    drawMapB();
+    obj.close()
+}
+
+function showDialog() {
+    var input = prompt("请输入名字，让我记住你！");
+    alert("你输入的是：" + input);
+}
+
+function testss() {
+    alert(1);
+    var click = $("#Capture");
+    click.click();
+}
+document.addEventListener("keydown", function(event) {
+  if (event.key == 1) {
+    
+    // 添加 flash 类触发动画
+    //card_header.classList.add('flash');
+
+  // 在动画结束后，移除 flash 类
+  setTimeout(function() {
+    //card_header.classList.remove('flash');
+  }, 500); // 这里的时间应该和动画的持续时间一致
+
+
+    //clearTimeout(timeout);
+    var now = new Date().getTime();
+    var timeDiff = now - lastClickTime;
+
+
+  if (timeDiff < 300) { // 300毫秒以内算是双击
+    clickCount++;
+  } else {
+    clickCount = 1;
+  }
+
+  timeout = setTimeout(function() {
+    if (clickCount === 1) {
+        console.log('单击拍照查询');
+        //click_button.click();
+        $("#QueryFace").click();
+      } else if (clickCount === 2) {
+        console.log('双击录入');
+        //camera_button.click();
+        $("#RegisterFace").click();
+      } else if (clickCount === 3) {
+      console.log('三击刷新页面');
+      location.reload();
+    }
+  }, delay)
+
+  lastClickTime = now;
+  }
+  
+});
+
+//$().ajaxStart($.blockUI).ajaxStop($.unblockUI);
+function UpCaptureFace() {
+    var facename = "";
+    upoppertype = "query";
+    if ($("#file").prop('files').length == 0) {
+        //$("#file").css("display", "block");
+        var file = $("#file");
+        //alert("请先选择要上传的图片，并再次点击【上传查询】！");
+        file.click();
+    } else {
+        $('#loading-div-background').slideDown(200);
+        var reader = new FileReader();
+        var file_data = $('#file').prop('files')[0];
+        reader.onload = function (e) { 
+            var dataURL = e.target.result
+            console.log(dataURL);        // 解析后的数据，如下图
+            var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+            //alert(base64);
+            $('#loading-div-background').slideDown(200);
+            $.ajax({
+                url: "/requests_ajax",
+                type: 'POST',
+                cache: false,
+                data: JSON.stringify({
+                    "opper": "query",
+                    "facename": "Mr",
+                    "image": base64
+                }),
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                contentType: "application/json",
+                success: function(content, status) {
+                    //alert(content);
+                    var obj = $.parseJSON(content);
+                    result = obj.data;
+                    $("#file").val('');
+                    $("#file").css("display", "none");
+                    initPage(result);
+                }
+            });
+        }
+        reader.readAsDataURL(file_data);    // 解析成base64格式
+    }
+}
+
+function UpRecordFaceDB() {
+    var facename = "";
+    upoppertype = "record";
+    if ($("#file").prop('files').length == 0) {
+        //$("#file").css("display", "block");
+        var file = $("#file");
+        //alert("请先选择要上传的图片，并再次点击【上传录入】！");
+        file.click();
+    } else {
+        facename = prompt("请输入名字，让我记住你！");
+        if (facename === null) {
+            $("#file").val('');
+            $("#file").css("display", "none");
+            return;
+        } else {
+            if ("" == facename) {
+                alert("input your name");
+                $("#file").val('');
+                $("#file").css("display", "none");
+                return;
+            }
+        }
+        var reader = new FileReader();
+        var file_data = $('#file').prop('files')[0];
+        reader.onload = function (e) { 
+            var dataURL = e.target.result
+            console.log(dataURL);        // 解析后的数据，如下图
+            var base64 = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+            //alert(base64);
+            $('#loading-div-background').slideDown(200);
+            $.ajax({
+                url: "/requests_ajax",
+                type: 'POST',
+                cache: false,
+                data: JSON.stringify({
+                    "opper": "recordface",
+                    "facename": facename,
+                    "image": base64
+                }),
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                contentType: "application/json",
+                success: function(content, status) {
+                    $('#loading-div-background').slideUp(200);
+                    var result = $.parseJSON(content);
+                    if ("success" == result.status) {
+                        alert(result.data);
+                    } else {
+                        alert(result.error);
+                    }
+                    $("#file").val('');
+                    $("#file").css("display", "none");
+                }
+            });
+        }
+        reader.readAsDataURL(file_data);    // 解析成base64格式
+    }
+}
+
+$('#file').change(function() { 
+    var file = $(this).prop('files')[0]; 
+    console.log('文件名：' + file.name); 
+    console.log('文件大小：' + file.size); 
+    console.log('文件类型：' + file.type); 
+    if ("query" == upoppertype){
+        UpCaptureFace();
+    }else{
+        UpRecordFaceDB();
+    }
+}); 
+    </script>
+</body>
+
+</html>
