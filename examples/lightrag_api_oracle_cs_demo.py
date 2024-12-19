@@ -265,8 +265,8 @@ async def upload(files: Annotated[list[bytes], File()]):
             content = file.decode("gbk")
         # Insert file content
         loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, lambda: rag.insert(content))
-
+        #await loop.run_in_executor(None, lambda: rag.insert(content))
+        await rag.ainsert(content)
         return Response(
             status="success",
             message=f"File content inserted successfully",
