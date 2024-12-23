@@ -191,6 +191,8 @@ class OracleKVStorage(BaseKVStorage, BaseOracle):
 
     async def get_by_id(self, id: str) -> Union[dict, None]:
         """根据 id 获取 doc_full 数据."""
+        if SQL_TEMPLATES.get("get_by_id_" + self.namespace, None) is None:
+            return None
         SQL = SQL_TEMPLATES["get_by_id_" + self.namespace]
         params = {"workspace": self.db.workspace, "id": id}
         # print("get_by_id:"+SQL)

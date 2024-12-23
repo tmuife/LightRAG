@@ -253,6 +253,17 @@ async def insert_endpoint(request: InsertRequest):
 async def chat(request: ChatRequest):
     print(request.message)
     print("chat")
+    top_k = 3
+    result = await rag.aquery(
+        request.message,
+        param=QueryParam(
+            mode="local",
+            only_need_context=False,
+            only_need_prompt=False,
+            top_k=top_k,
+        ),
+    )
+    return Response(status="success", data=result)
 
 
 @app.post("/upload")

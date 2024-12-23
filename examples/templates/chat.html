@@ -462,16 +462,16 @@
                 });
 
                 const data = await response.json();
-
+                console.log(data);
                 // Remove loading message
                 chatContainer.removeChild(loadingDiv);
 
                 if (data.error) {
                     throw new Error(data.error);
                 }
-
+                console.log(data);
                 // Add bot response to chat
-                await addMessage(data);
+                await addMessage({"intermediate_steps":[], "reasoning":"reasoning", "final_answer": data.data});
             } catch (error) {
                 // Remove loading message
                 chatContainer.removeChild(loadingDiv);
