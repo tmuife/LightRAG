@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 100vh;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#433358", "description": "\"Person 1 is depicted as wearing a gray hoodie and is engaged in conversation within a modern corridor setting, indicating a casual interaction.\"", "entity_type": "\"PERSON\"", "id": "\"PERSON 1\"", "label": "\"PERSON 1\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Person 1 is depicted as wearing a gray hoodie and is engaged in conversation within a modern corridor setting, indicating a casual interaction.\""}, {"color": "#7ffb48", "description": "\"Person 2 is shown in a black vest with \u0027POLICE\u0027 written on it, suggesting a security role, and is interacting with Person 1 in a professional environment.\"", "entity_type": "\"PERSON\"", "id": "\"PERSON 2\"", "label": "\"PERSON 2\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Person 2 is shown in a black vest with \u0027POLICE\u0027 written on it, suggesting a security role, and is interacting with Person 1 in a professional environment.\""}, {"color": "#a7ea7f", "description": "\"The Modern Corridor serves as the setting for important interactions between individuals and features metallic walls and festive decorations, indicating a contemporary design.\"", "entity_type": "\"GEO\"", "id": "\"MODERN CORRIDOR\"", "label": "\"MODERN CORRIDOR\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Modern Corridor serves as the setting for important interactions between individuals and features metallic walls and festive decorations, indicating a contemporary design.\""}, {"color": "#0edb0b", "description": "\"The Festive Occasion is suggested through red and gold decorations, possibly indicating a celebration such as Lunar New Year, creating a cultural backdrop for the scene.\"", "entity_type": "\"EVENT\"", "id": "\"FESTIVE OCCASION\"", "label": "\"FESTIVE OCCASION\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Festive Occasion is suggested through red and gold decorations, possibly indicating a celebration such as Lunar New Year, creating a cultural backdrop for the scene.\""}, {"color": "#e18507", "description": "\"The Reflective Walls are a notable feature of the hallway, contributing to the modern and sleek design of the corridor where the events take place.\"", "entity_type": "\"GEO\"", "id": "\"REFLECTIVE WALLS\"", "label": "\"REFLECTIVE WALLS\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Reflective Walls are a notable feature of the hallway, contributing to the modern and sleek design of the corridor where the events take place.\""}, {"color": "#c05768", "description": "\"The Elevator is present in the corridor setting, serving as an important feature within the modern architectural design and indicating functionality in the environment.\"", "entity_type": "\"GEO\"", "id": "\"ELEVATOR\"", "label": "\"ELEVATOR\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Elevator is present in the corridor setting, serving as an important feature within the modern architectural design and indicating functionality in the environment.\""}, {"color": "#c7a455", "description": "\"The Chinese Characters Decoration is used in the corridor to enhance the cultural atmosphere, connecting to potential festive celebrations in the setting.\"", "entity_type": "\"GEO\"", "id": "\"CHINESE CHARACTERS DECORATION\"", "label": "\"CHINESE CHARACTERS DECORATION\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Chinese Characters Decoration is used in the corridor to enhance the cultural atmosphere, connecting to potential festive celebrations in the setting.\""}, {"color": "#090345", "description": "\"Lunar New Year is implied as a possible festive occasion due to the red decorations in the corridor, representing cultural significance.\"", "entity_type": "\"EVENT\"", "id": "\"LUNAR NEW YEAR\"", "label": "\"LUNAR NEW YEAR\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Lunar New Year is implied as a possible festive occasion due to the red decorations in the corridor, representing cultural significance.\""}, {"color": "#3f9db1", "description": "\"The Gray Hoodie Person is described as wearing a gray hoodie and light-colored pants, engaged in conversation in a modern hallway.\"", "entity_type": "\"PERSON\"", "id": "\"GRAY HOODIE PERSON\"", "label": "\"GRAY HOODIE PERSON\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Gray Hoodie Person is described as wearing a gray hoodie and light-colored pants, engaged in conversation in a modern hallway.\""}, {"color": "#57ff13", "description": "\"The Black Vest Police is a security personnel identified by their \u0027POLICE\u0027 vest, engaged in conversation with the Gray Hoodie Person in a professional setting.\"", "entity_type": "\"PERSON\"", "id": "\"BLACK VEST POLICE\"", "label": "\"BLACK VEST POLICE\"", "shape": "dot", "size": 10, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Black Vest Police is a security personnel identified by their \u0027POLICE\u0027 vest, engaged in conversation with the Gray Hoodie Person in a professional setting.\""}, {"color": "#d36d3e", "description": "\"PHILIPS is a well-known company, visible on a jacket worn by an individual in the video, indicating its presence in the environment.\"", "entity_type": "\"ORGANIZATION\"", "id": "\"PHILIPS\"", "label": "\"PHILIPS\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"PHILIPS is a well-known company, visible on a jacket worn by an individual in the video, indicating its presence in the environment.\""}, {"color": "#d0f862", "description": "\"The individuals in the video are part of a casual workplace setting, interacting in a modern office or commercial building environment.\"", "entity_type": "\"PERSON\"", "id": "\"THE INDIVIDUALS\"", "label": "\"THE INDIVIDUALS\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The individuals in the video are part of a casual workplace setting, interacting in a modern office or commercial building environment.\""}, {"color": "#c69483", "description": "\"The individual wearing dark clothing with a \u0027PATIENCE\u0027 label is depicted standing still and waiting for an elevator, adding to the typical workplace atmosphere.\"", "entity_type": "\"PERSON\"", "id": "\"INDIVIDUAL IN DARK CLOTHING\"", "label": "\"INDIVIDUAL IN DARK CLOTHING\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The individual wearing dark clothing with a \u0027PATIENCE\u0027 label is depicted standing still and waiting for an elevator, adding to the typical workplace atmosphere.\""}, {"color": "#d6b41c", "description": "\"Chinese New Year is a cultural celebration represented by the red banners and decorations in the video, indicating festive significance.\"", "entity_type": "\"EVENT\"", "id": "\"CHINESE NEW YEAR\"", "label": "\"CHINESE NEW YEAR\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"Chinese New Year is a cultural celebration represented by the red banners and decorations in the video, indicating festive significance.\""}, {"color": "#d36b9b", "description": "\"The setting is a modern office or commercial building characterized by clean lines, reflective surfaces, and decorative elements that suggest a professional environment.\"", "entity_type": "\"GEO\"", "id": "\"OFFICE OR COMMERCIAL BUILDING\"", "label": "\"OFFICE OR COMMERCIAL BUILDING\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The setting is a modern office or commercial building characterized by clean lines, reflective surfaces, and decorative elements that suggest a professional environment.\""}, {"color": "#a07ade", "description": "\"This individual is seen wearing a pink hoodie and is involved in interactions with other individuals in the video, suggesting they are part of a casual or workplace setting.\"", "entity_type": "\"PERSON\"", "id": "\"INDIVIDUAL IN PINK HOODIE\"", "label": "\"INDIVIDUAL IN PINK HOODIE\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"This individual is seen wearing a pink hoodie and is involved in interactions with other individuals in the video, suggesting they are part of a casual or workplace setting.\""}, {"color": "#b3ba07", "description": "\"This individual is wearing a gray hoodie and appears to be engaged in discussions with others, indicating their active participation in the environment.\"", "entity_type": "\"PERSON\"", "id": "\"INDIVIDUAL IN GRAY HOODIE\"", "label": "\"INDIVIDUAL IN GRAY HOODIE\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"This individual is wearing a gray hoodie and appears to be engaged in discussions with others, indicating their active participation in the environment.\""}, {"color": "#a3c20a", "description": "\"These decorative elements signify cultural relevance, likely related to the celebrations for the Lunar New Year, enhancing the festive atmosphere of the setting.\"", "entity_type": "\"GEO\"", "id": "\"RED BANNERS WITH CHINESE CHARACTERS\"", "label": "\"RED BANNERS WITH CHINESE CHARACTERS\"", "shape": "dot", "size": 10, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"These decorative elements signify cultural relevance, likely related to the celebrations for the Lunar New Year, enhancing the festive atmosphere of the setting.\""}, {"color": "#0086a5", "description": "\"Chinese New Year Decorations refer to the festive elements displayed, including red banners and diamond-shaped signs with golden symbols, contributing to the celebratory atmosphere.\"", "entity_type": "\"EVENT\"", "id": "\"CHINESE NEW YEAR DECORATIONS\"", "label": "\"CHINESE NEW YEAR DECORATIONS\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Chinese New Year Decorations refer to the festive elements displayed, including red banners and diamond-shaped signs with golden symbols, contributing to the celebratory atmosphere.\""}, {"color": "#00b0e3", "description": "\"The Individual is portrayed as a person wearing casual attire, standing in a modern office or elevator lobby with a lack of movement or interaction during the observation period.\"", "entity_type": "\"PERSON\"", "id": "\"INDIVIDUAL\"", "label": "\"INDIVIDUAL\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual is portrayed as a person wearing casual attire, standing in a modern office or elevator lobby with a lack of movement or interaction during the observation period.\""}, {"color": "#f6bdf5", "description": "\"The Elevator Lobby is described as a modern and well-lit space with reflective surfaces, contributing to the overall visual aesthetic of the environment.\"", "entity_type": "\"GEO\"", "id": "\"ELEVATOR LOBBY\"", "label": "\"ELEVATOR LOBBY\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Elevator Lobby is described as a modern and well-lit space with reflective surfaces, contributing to the overall visual aesthetic of the environment.\""}, {"color": "#4a81d1", "description": "\"The Office Environment is depicted as a professional setting exhibiting contemporary decor and a static scene with no dynamic activities occurring.\"", "entity_type": "\"GEO\"", "id": "\"OFFICE ENVIRONMENT\"", "label": "\"OFFICE ENVIRONMENT\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Office Environment is depicted as a professional setting exhibiting contemporary decor and a static scene with no dynamic activities occurring.\""}, {"color": "#fb5c26", "description": "\"Grey Hoodie refers to the casual attire worn by the Individual, indicating a relaxed dress code in the professional environment.\"", "entity_type": "\"TECHNOLOGY\"", "id": "\"GREY HOODIE\"", "label": "\"GREY HOODIE\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Grey Hoodie refers to the casual attire worn by the Individual, indicating a relaxed dress code in the professional environment.\""}, {"color": "#e63488", "description": "\"White Shirt is part of the Individual\u0027s outfit, complementing the casual appearance in a professional setting.\"", "entity_type": "\"TECHNOLOGY\"", "id": "\"WHITE SHIRT\"", "label": "\"WHITE SHIRT\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"White Shirt is part of the Individual\u0027s outfit, complementing the casual appearance in a professional setting.\""}, {"color": "#edbd45", "description": "\"Black Pants are another component of the Individual\u0027s attire, consistent with the casual style observed.\"", "entity_type": "\"TECHNOLOGY\"", "id": "\"BLACK PANTS\"", "label": "\"BLACK PANTS\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Black Pants are another component of the Individual\u0027s attire, consistent with the casual style observed.\""}, {"color": "#dc206f", "description": "\"Dark Shoes complete the Individual\u0027s casual outfit, highlighting the theme of informal dress in a workplace.\"", "entity_type": "\"TECHNOLOGY\"", "id": "\"DARK SHOES\"", "label": "\"DARK SHOES\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Dark Shoes complete the Individual\u0027s casual outfit, highlighting the theme of informal dress in a workplace.\""}, {"color": "#a26ebb", "description": "\"Reflective Surfaces describe the design feature of the environment, contributing to the modern aesthetic and atmosphere.\"", "entity_type": "\"GEO\"", "id": "\"REFLECTIVE SURFACES\"", "label": "\"REFLECTIVE SURFACES\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Reflective Surfaces describe the design feature of the environment, contributing to the modern aesthetic and atmosphere.\""}, {"color": "#8dc80b", "description": "\"Decorative Elements refer to the various ornamental features in the environment, including banners and designs that enhance the setting\u0027s cultural significance.\"", "entity_type": "\"GEO\"", "id": "\"DECORATIVE ELEMENTS\"", "label": "\"DECORATIVE ELEMENTS\"", "shape": "dot", "size": 10, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Decorative Elements refer to the various ornamental features in the environment, including banners and designs that enhance the setting\u0027s cultural significance.\""}]);
+                  edges = new vis.DataSet([{"description": "\"Person 1 and Person 2 are engaged in a conversation, suggesting a professional or important interaction between them.\"", "from": "\"PERSON 1\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Person 1 and Person 2 are engaged in a conversation, suggesting a professional or important interaction between them.\"", "to": "\"PERSON 2\"", "width": 8.0}, {"description": "\"Person 2, as a figure of authority or security, is positioned in the Modern Corridor, where interactions occur, thereby being a part of the environment.\"", "from": "\"PERSON 2\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Person 2, as a figure of authority or security, is positioned in the Modern Corridor, where interactions occur, thereby being a part of the environment.\"", "to": "\"MODERN CORRIDOR\"", "width": 7.0}, {"description": "\"The Modern Corridor is decorated for the Festive Occasion, contributing to the overall ambiance and significance of the setting.\"", "from": "\"MODERN CORRIDOR\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Modern Corridor is decorated for the Festive Occasion, contributing to the overall ambiance and significance of the setting.\"", "to": "\"FESTIVE OCCASION\"", "width": 6.0}, {"description": "\"Reflective Walls are part of the Modern Corridor\u0027s design, enhancing the contemporary look and feel of the space.\"", "from": "\"MODERN CORRIDOR\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Reflective Walls are part of the Modern Corridor\u0027s design, enhancing the contemporary look and feel of the space.\"", "to": "\"REFLECTIVE WALLS\"", "width": 7.0}, {"description": "\"The Elevator is situated within the Modern Corridor, indicating a functional aspect of the building and contributing to the flow of movement in the space.\"", "from": "\"MODERN CORRIDOR\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Elevator is situated within the Modern Corridor, indicating a functional aspect of the building and contributing to the flow of movement in the space.\"", "to": "\"ELEVATOR\"", "width": 6.0}, {"description": "\"The Chinese Characters Decoration adds a cultural layer to the Modern Corridor\u0027s design, suggesting a celebration or festive context.\"", "from": "\"MODERN CORRIDOR\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"The Chinese Characters Decoration adds a cultural layer to the Modern Corridor\u0027s design, suggesting a celebration or festive context.\"", "to": "\"CHINESE CHARACTERS DECORATION\"", "width": 5.0}, {"description": "\"Lunar New Year is one of the potential events indicated by the decorations in the corridor, connecting the cultural significance.\"", "from": "\"FESTIVE OCCASION\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Lunar New Year is one of the potential events indicated by the decorations in the corridor, connecting the cultural significance.\"", "to": "\"LUNAR NEW YEAR\"", "width": 9.0}, {"description": "\"Gray Hoodie Person interacts with Black Vest Police in a context suggesting security and oversight in the workplace.\"", "from": "\"GRAY HOODIE PERSON\"", "order": 1, "source_id": "chunk-64079ef937216e6d6a35577264822a98", "title": "\"Gray Hoodie Person interacts with Black Vest Police in a context suggesting security and oversight in the workplace.\"", "to": "\"BLACK VEST POLICE\"", "width": 8.0}, {"description": "\"The presence of PHILIPS branding on one individual\u2019s clothing indicates a connection to the organization within the workplace context.\"", "from": "\"PHILIPS\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The presence of PHILIPS branding on one individual\u2019s clothing indicates a connection to the organization within the workplace context.\"", "to": "\"THE INDIVIDUALS\"", "width": 8.0}, {"description": "\"The individual in dark clothing represents or is associated with PHILIPS due to the visible branding on their attire, indicating corporate identification.\"", "from": "\"PHILIPS\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The individual in dark clothing represents or is associated with PHILIPS due to the visible branding on their attire, indicating corporate identification.\"", "to": "\"INDIVIDUAL IN DARK CLOTHING\"", "width": 8.0}, {"description": "\"The individuals are interacting in a setting that is decorated for Chinese New Year, suggesting a cultural context for their activities.\"", "from": "\"CHINESE NEW YEAR\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The individuals are interacting in a setting that is decorated for Chinese New Year, suggesting a cultural context for their activities.\"", "to": "\"THE INDIVIDUALS\"", "width": 6.0}, {"description": "\"The individuals are interacting within the office or commercial building environment, highlighting the typical social dynamic of a workplace.\"", "from": "\"THE INDIVIDUALS\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The individuals are interacting within the office or commercial building environment, highlighting the typical social dynamic of a workplace.\"", "to": "\"OFFICE OR COMMERCIAL BUILDING\"", "width": 9.0}, {"description": "\"The interaction between these two individuals indicates they are engaged in a conversation in a workplace environment.\"", "from": "\"INDIVIDUAL IN PINK HOODIE\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The interaction between these two individuals indicates they are engaged in a conversation in a workplace environment.\"", "to": "\"INDIVIDUAL IN GRAY HOODIE\"", "width": 7.0}, {"description": "\"The individual in gray hoodie shows signs of communication with the person in dark clothing, suggesting collaboration or discussion.\"", "from": "\"INDIVIDUAL IN GRAY HOODIE\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The individual in gray hoodie shows signs of communication with the person in dark clothing, suggesting collaboration or discussion.\"", "to": "\"INDIVIDUAL IN DARK CLOTHING\"", "width": 6.0}, {"description": "\"The presence of red banners in the office or commercial building context signifies cultural observance and celebration within that space.\"", "from": "\"OFFICE OR COMMERCIAL BUILDING\"", "order": 1, "source_id": "chunk-7236eaafae9f7c3db935f44246af2e25", "title": "\"The presence of red banners in the office or commercial building context signifies cultural observance and celebration within that space.\"", "to": "\"RED BANNERS WITH CHINESE CHARACTERS\"", "width": 5.0}, {"description": "\"The Individual is present in an environment adorned with Chinese New Year Decorations, linking their presence to the festive celebration.\"", "from": "\"CHINESE NEW YEAR DECORATIONS\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual is present in an environment adorned with Chinese New Year Decorations, linking their presence to the festive celebration.\"", "to": "\"INDIVIDUAL\"", "width": 6.0}, {"description": "\"The Individual is situated in the Elevator Lobby, making this a relevant setting for their activity or observation.\"", "from": "\"INDIVIDUAL\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual is situated in the Elevator Lobby, making this a relevant setting for their activity or observation.\"", "to": "\"ELEVATOR LOBBY\"", "width": 7.0}, {"description": "\"The Individual is also part of the Office Environment, which provides context for their location and attire.\"", "from": "\"INDIVIDUAL\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual is also part of the Office Environment, which provides context for their location and attire.\"", "to": "\"OFFICE ENVIRONMENT\"", "width": 5.0}, {"description": "\"The Individual is wearing a Grey Hoodie, which is highlighted as part of their casual attire.\"", "from": "\"INDIVIDUAL\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual is wearing a Grey Hoodie, which is highlighted as part of their casual attire.\"", "to": "\"GREY HOODIE\"", "width": 6.0}, {"description": "\"The Individual\u0027s White Shirt is a notable aspect of their wardrobe, emphasizing their casual yet presentable outfit.\"", "from": "\"INDIVIDUAL\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual\u0027s White Shirt is a notable aspect of their wardrobe, emphasizing their casual yet presentable outfit.\"", "to": "\"WHITE SHIRT\"", "width": 5.0}, {"description": "\"The Individual\u2019s Black Pants are part of a cohesive casual outfit, reflecting the environment\u0027s relaxed dress code.\"", "from": "\"INDIVIDUAL\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"The Individual\u2019s Black Pants are part of a cohesive casual outfit, reflecting the environment\u0027s relaxed dress code.\"", "to": "\"BLACK PANTS\"", "width": 5.0}, {"description": "\"Dark Shoes worn by the Individual are indicative of their casual approach to professional attire.\"", "from": "\"INDIVIDUAL\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Dark Shoes worn by the Individual are indicative of their casual approach to professional attire.\"", "to": "\"DARK SHOES\"", "width": 5.0}, {"description": "\"Reflective Surfaces are a characteristic feature of the Office Environment, enhancing its modern appearance.\"", "from": "\"OFFICE ENVIRONMENT\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Reflective Surfaces are a characteristic feature of the Office Environment, enhancing its modern appearance.\"", "to": "\"REFLECTIVE SURFACES\"", "width": 6.0}, {"description": "\"Decorative Elements within the Office Environment serve to create a culturally rich atmosphere during the Chinese New Year celebration.\"", "from": "\"OFFICE ENVIRONMENT\"", "order": 1, "source_id": "chunk-775dee00bfa6ae3147862d40310b40fa", "title": "\"Decorative Elements within the Office Environment serve to create a culturally rich atmosphere during the Chinese New Year celebration.\"", "to": "\"DECORATIVE ELEMENTS\"", "width": 7.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

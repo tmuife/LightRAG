@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from typing import Optional, Any
 from decouple import config as _config
 import sys
-import os
+import os,json
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, Request
@@ -19,7 +19,7 @@ from lightrag.utils import EmbeddingFunc
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 from lightrag.kg.oracle_impl import OracleDB
-
+db: OracleDB
 print(os.getcwd())
 script_directory = Path(__file__).resolve().parent.parent
 sys.path.append(os.path.abspath(script_directory))
@@ -48,6 +48,15 @@ print(f"EMBEDDING_MAX_TOKEN_SIZE: {EMBEDDING_MAX_TOKEN_SIZE}")
 
 if not os.path.exists(WORKING_DIR):
     os.mkdir(WORKING_DIR)
+
+def jsonMsg(status, data, error):
+    result = {}
+    result["status"] = status
+    if "success" == status:
+        result["data"] = data
+    else:
+        result["error"] = error
+    return json.dumps(result)
 
 
 async def llm_model_func(
@@ -100,7 +109,8 @@ async def init():
             "workspace": _config("WORKSPACE"),
         }  # specify which docs you want to store and query
     )
-
+    global db
+    db = oracle_db
     # Check if Oracle DB tables exist, if not, tables will be created
     await oracle_db.check_tables()
     # Initialize LightRAG
@@ -171,10 +181,12 @@ class Response(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
+    query_type: str
+    workspace: str
 
 # API routes
 
-rag = None
+rag: LightRAG
 
 
 @asynccontextmanager
@@ -206,6 +218,11 @@ async def default(request: Request):
     return templates.TemplateResponse(
         request=request, name="chat.html"
     )
+@app.post("/query_docs", response_model=Response)
+async def query_docs(request: QueryRequest):
+    result = await db.query(sql="select id,workspace,doc_name,createtime from lightrag_doc_full", params=None, multirows=True)
+    return Response(status="success", data=result)
+
 @app.post("/query", response_model=Response)
 async def query_endpoint(request: QueryRequest):
     # try:
@@ -251,9 +268,19 @@ async def insert_endpoint(request: InsertRequest):
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
-    print(request.message)
+    print(request.workspace)
     print("chat")
-    top_k = 3
+    db.workspace = "DD"#request.workspace
+    if hasattr(rag.graph_storage_cls.db,'workspace'):
+        print("has workspace",rag.graph_storage_cls.db.workspace)
+        setattr(rag.graph_storage_cls.db, 'workspace', 'DD')
+    rag.graph_storage_cls.db = db
+    rag.key_string_value_json_storage_cls.db = db
+    rag.vector_db_storage_cls.db = db
+    if request.query_type == "naive":
+        top_k = 3
+    else:
+        top_k = 60
     result = await rag.aquery(
         request.message,
         param=QueryParam(
